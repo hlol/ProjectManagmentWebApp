@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/template.xhtml" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="content">       
+<f:view>
+<h:form id="form20">
+    <p:growl id="msgs" showDetail="true" />
+            
+    <p:growl id="growl" sticky="true" showDetail="true"/>
+ 
+    <p:wizard flowListener="#{workFlowGlobalController.onFlowProcess}"> 
+         <p:tab id="addProduct" title="Add product">
+        <ui:include src="addProductToWork.xhtml" />
+        </p:tab>
+         <p:tab id="addProvider" title="Add provider">
+        <ui:include src="addProviderToWork.xhtml" />
+        </p:tab>
+         <p:tab id="addPartner" title="Add Partner">
+        <ui:include src="addPartnerToWork.xhtml" />
+        </p:tab>
+        <p:tab id="confirm3" title="Confirmation">
+            <p:panel header="Confirmation">
+                <h:panelGrid id="confirmation" columns="3" columnClasses="grid,grid,grid">
+                    <h:panelGrid columns="2" columnClasses="label, value">
+                    </h:panelGrid>
+ 
+                    <h:panelGrid columns="2" columnClasses="label, value">
+                    
+                    </h:panelGrid>
+ 
+                    <h:panelGrid columns="2" columnClasses="label, value">
+                    
+ 
+                        <h:outputText />
+                        <h:outputText />
+                    </h:panelGrid>
+                </h:panelGrid>
+ 
+                <p:commandButton value="Submit" actionListener="#{workFlowGlobalController.saveResources}" update="growl" process="@this"/>
+            </p:panel>
+        </p:tab>
+    </p:wizard>
+    
+ </h:form>
+</f:view>
+</ui:define>
+</ui:composition>
+

@@ -1,0 +1,92 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/template.xhtml" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="content">       
+<f:view>
+<h:form id="form20">
+    <p:growl id="msgs" showDetail="true" />
+            
+    <p:growl id="growl" sticky="true" showDetail="true"/>
+ 
+    <p:wizard flowListener="#{projectController.onFlowProcess}">
+        <p:tab id="information" title="information">
+            <p:panel header="work Details">
+                <p:messages />
+                <h:panelGrid columns="2" columnClasses="label, value">
+                  <h:outputLabel for="workName" value="Project Name : *" />
+                  <p:inputText id="workName" value="#{projectController.projectEntity.nameProject}"
+									required="true" label="workName">
+									<f:validateLength minimum="4" />
+									<p:ajax update="msgworkName" event="keyup" />
+								</p:inputText>
+								<p:message for="workName" id="msgworkName" display="icon" />
+								<p:watermark for="workName" value="Name" />
+
+								<h:outputLabel value="Start Date  : " />
+                                                                <p:calendar value="#{projectController.projectEntity.startDate}" readonlyInput="true" id="popupCal"
+									effect="explode" required="false">
+									
+                                                                    <p:ajax update="msgPopup" event="keyup" />
+								</p:calendar>
+								<p:message for="popupCal" id="msgPopup" display="icon" />
+								<p:watermark for="popupCal" value="--/--/--" />
+								 <h:outputLabel value="End Date  : " />
+                                                                 <p:calendar value="#{projectController.projectEntity.endDate}" id="popupCal2" readonlyInput="true" mindate="#{projectController.projectEntity.startDate}"
+									effect="explode" required="false">
+									
+                                                                      <p:ajax update="popupCal2" event="keyup" />
+								</p:calendar>
+								<p:message for="popupCal2" id="msgPopup2" display="icon" />
+								<p:watermark for="popupCal2" value="--/--/--" />
+                                                                <h:outputLabel value="Description  : " />
+								<p:inputTextarea rows="6" cols="33" id="description" value="#{projectController.projectEntity.description}"/>
+								<p:ajax update="description" event="keyup" />
+								<h:outputText value="Skip to last: " />
+                    <h:selectBooleanCheckbox value="#{projectController.skip}" />
+                </h:panelGrid>
+            </p:panel>
+        </p:tab>
+  
+      
+         <p:tab id="addCustomer" title="Add Customer">
+        <ui:include src="addCustomerToWork.xhtml" />
+        </p:tab>
+          <p:tab id="addUser" title="Add user">
+        <ui:include src="addUserToWork.xhtml" />
+        </p:tab>
+        <p:tab id="confirm3" title="Confirmation">
+            <p:panel header="Confirmation">
+                <h:panelGrid id="confirmation" columns="3" columnClasses="grid,grid,grid">
+                    <h:panelGrid columns="2" columnClasses="label, value">
+                        <h:outputText value="projet name : " />
+                        <h:outputText value="#{projectController.projectEntity.nameProject}" styleClass="outputLabel"/>
+ 
+                        <h:outputText value="begining date " />
+                        <h:outputText value="#{projectController.projectEntity.startDate}" styleClass="outputLabel"/>
+  <h:outputText value="due date " />
+  <h:outputText value="#{projectController.projectEntity.endDate}" styleClass="outputLabel"/>
+ 
+  <h:outputText value="description : " />
+                        <h:outputText value="#{projectController.projectEntity.description}" styleClass="outputLabel"/>
+ 
+                     
+                    </h:panelGrid>
+ 
+                   
+                  
+                </h:panelGrid>
+ 
+                <p:commandButton value="Submit" actionListener="#{projectController.addProject()}" update="growl" process="@this"/>
+            </p:panel>
+        </p:tab>
+    </p:wizard>
+    
+ </h:form>
+</f:view>
+</ui:define>
+</ui:composition>
+

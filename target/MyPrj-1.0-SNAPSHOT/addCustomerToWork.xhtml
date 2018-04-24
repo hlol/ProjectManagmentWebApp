@@ -1,0 +1,232 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+     <p:panel >
+	
+			<p:contextMenu for="customerPerson">
+				<p:menuitem value="Customer Details" update="customerPersonDetail"
+					icon="ui-icon-search" oncomplete="PF('customerPersonDialog').show()" />
+					
+				<p:menuitem value="add to project" update="addCustomerPerson1"
+					icon="ui-icon-close" onclick="PF('confirmationCustomerPerson').show();" />
+
+			</p:contextMenu>
+			<p:contextMenu for="customerPerson1">
+				<p:menuitem value="Customer Details" update="customerPersonDetail2"
+					icon="ui-icon-search" oncomplete="PF('customerPersonDialog2').show()" />
+					
+				<p:menuitem value="Delete from project" update="addCustomerPerson2"
+					icon="ui-icon-close" onclick="PF('confirmationCustomerPerson2').show();" />
+
+			</p:contextMenu>
+
+        <p:dataTable id="customerPerson" var="customerPerson"
+                     value="#{projectController.listCustomers}" resizableColumns="true"
+				liveScroll="true" styleClass=".ui-datatable-hor-scroll"
+				tableStyle="table-layout:auto;width:100%;" scrollable="true"
+				paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                rowsPerPageTemplate="5,10,15" rowKey="#{customerPerson.idCustomer}"
+				filteredValue="#{projectController.customerfilter}"
+				selection="#{projectController.customerSelected}"
+				selectionMode="single" style="margin-bottom:20px">
+				<f:facet name="header">
+            List of customers
+        </f:facet>
+
+
+				<p:column headerText="Last Name" filterBy="#{customerPerson.lastName}"
+					filterMatchMode="contains" sortBy="#{customerPerson.lastName}">
+					<h:outputText value="#{customerPerson.lastName}" />
+				</p:column>
+				<p:column headerText="First Name" filterBy="#{customerPerson.firstName}"
+					filterMatchMode="contains" sortBy="#{customerPerson.firstName}">
+					<h:outputText value="#{customerPerson.firstName}" />
+				</p:column>
+
+            <p:column headerText="Address" filterBy="#{customerPerson.city}"
+					filterMatchMode="contains" sortBy="#{customerPerson.city}">
+					<h:outputText value="#{customerPerson.city}" />
+				</p:column>
+
+            <p:column headerText="Phone" filterBy="#{customerPerson.phone}"
+					filterMatchMode="contains" sortBy="#{customerPerson.phone}">
+					<h:outputText value="#{customerPerson.phone}" />
+				</p:column>
+				<p:column headerText="Email" filterBy="#{customerPerson.email}"
+					filterMatchMode="contains" sortBy="#{customerPerson.email}">
+					<h:outputText value="#{customerPerson.email}" />
+				</p:column>
+
+			</p:dataTable>
+			  <p:dataTable id="customerPerson1" var="customerPerson1"
+				value="#{projectController.listCustomerWork}" resizableColumns="true"
+				liveScroll="true" styleClass=".ui-datatable-hor-scroll"
+				tableStyle="table-layout:auto;width:100%;" scrollable="true"
+				paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                rowsPerPageTemplate="5,10,15" rowKey="#{customerPerson1.idCustomer}"
+				selection="#{projectController.customerworkSelected}"
+				selectionMode="single" style="margin-bottom:20px">
+				<f:facet name="header">
+             Project customer
+        </f:facet>
+
+
+				<p:column headerText="Last Name" filterBy="#{customerPerson1.lastName}"
+					filterMatchMode="contains" sortBy="#{customerPerson1.lastName}">
+					<h:outputText value="#{customerPerson1.lastName}" />
+				</p:column>
+				<p:column headerText="First Name" filterBy="#{customerPerson1.firstName}"
+					filterMatchMode="contains" sortBy="#{customerPerson1.firstName}">
+					<h:outputText value="#{customerPerson1.firstName}" />
+				</p:column>
+
+				<p:column headerText="Address" filterBy="#{customerPerson1.city}"
+					filterMatchMode="contains" sortBy="#{customerPerson1.city}">
+					<h:outputText value="#{customerPerson1.city}" />
+				</p:column>
+
+				<p:column headerText="Phone" filterBy="#{customerPerson1.phone}"
+					filterMatchMode="contains" sortBy="#{customerPerson1.phone}">
+					<h:outputText value="#{customerPerson1.phone}" />
+				</p:column>
+				<p:column headerText="Email" filterBy="#{customerPerson1.email}"
+					filterMatchMode="contains" sortBy="#{customerPerson1.email}">
+					<h:outputText value="#{customerPerson1.email}" />
+				</p:column>
+
+			</p:dataTable>
+			<p:dialog header="Information CustomerPerson" widgetVar="customerPersonDialog"
+				modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="customerPersonDetail" style="text-align:center;">
+					<p:panelGrid columns="2"
+						rendered="#{not empty projectController.customerSelected}"
+						columnClasses="label,value">
+						<f:facet name="header">
+
+						</f:facet>
+
+						<h:outputText value="Id:" />
+                                                <h:outputText value="#{projectController.customerSelected.idCustomer}" />
+
+						<h:outputText value="Last Name" />
+						<h:outputText value="#{projectController.customerSelected.lastName}" />
+
+						<h:outputText value="First Name" />
+						<h:outputText value="#{projectController.customerSelected.firstName}" />
+						
+		
+						<h:outputText value="CIN:" />
+						<h:outputText value="#{projectController.customerSelected.cin}" />
+
+						<h:outputText value="Address :" />
+						<h:outputText value="#{projectController.customerSelected.city}" />
+
+						
+						<h:outputText value="Zip Code" />
+						<h:outputText value="#{projectController.customerSelected.zipCode}" />
+						
+						
+
+						
+
+						<h:outputText value="Phone " />
+						<h:outputText value="#{projectController.customerSelected.phone}" />
+
+						
+						
+						<h:outputText value="Email" />
+						<h:outputText value="#{projectController.customerSelected.email}" />
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+			<p:dialog header="Confirmation" widgetVar="confirmationCustomerPerson"
+				draggable="false" resizable="false" height="80" width="250"
+				showEffect="fade" modal="true" dynamic="true" responsive="true">
+				<h:outputText value="add this customerPerson?" />
+				<h:panelGroup class="EmptyBox10" />
+				<p:outputPanel id="addCustomerPerson1" style="text-align:center;"
+					layout="block">
+
+					<p:commandButton id="confirmCustomerPerson" value="Yes"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+						oncomplete="PF('confirmationCustomerPerson').hide()"  
+                                                actionListener="#{projectController.addCustomerToWork()}"
+						 update=":form20:customerPerson,:form20:customerPerson1"
+						>
+				
+</p:commandButton>
+					<p:commandButton id="declineCustomerPerson" value="No"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+						onclick="PF('confirmationCustomerPerson').hide()" type="button" />
+
+				</p:outputPanel>
+			</p:dialog>
+     <p:dialog header="Customer Details" widgetVar="customerPersonDialog2"
+				modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="customerPersonDetail2" style="text-align:center;">
+					<p:panelGrid columns="2"
+						rendered="#{not empty projectController.customerworkSelected}"
+						columnClasses="label,value">
+						<f:facet name="header">
+
+						</f:facet>
+
+						<h:outputText value="Id:" />
+                                                <h:outputText value="#{projectController.customerworkSelected.idCustomer}" />
+
+						<h:outputText value="Last Name" />
+						<h:outputText value="#{projectController.customerworkSelected.lastName}" />
+
+						<h:outputText value="First Name" />
+						<h:outputText value="#{projectController.customerworkSelected.firstName}" />
+						
+						<h:outputText value="CIN:" />
+						<h:outputText value="#{projectController.customerworkSelected.cin}" />
+
+						<h:outputText value="AdDress:" />
+                                                <h:outputText value="#{projectController.customerworkSelected.city}" />
+
+						<h:outputText value="Zip Code" />
+						<h:outputText value="#{projectController.customerworkSelected.zipCode}" />
+						
+						<h:outputText value="City" />
+						<h:outputText value="#{projectController.customerworkSelected.city}" />
+
+						
+						<h:outputText value="Phone " />
+						<h:outputText value="#{projectController.customerworkSelected.phone}" />
+						
+						<h:outputText value="Email" />
+						<h:outputText value="#{projectController.customerworkSelected.email}" />
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+			<p:dialog header="confirmationCustomerPerson2" widgetVar="confirmationCustomerPerson2"
+				draggable="false" resizable="false" height="80" width="250"
+				showEffect="fade" modal="true" dynamic="true" responsive="true">
+				<h:outputText value="delete this customer?" />
+				<h:panelGroup class="EmptyBox10" />
+				<p:outputPanel id="addCustomerPerson2" style="text-align:center;"
+					layout="block">
+
+					<p:commandButton id="confirmCustomerPerson2" value="Yes"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+						oncomplete="PF('confirmationCustomerPerson2').hide()"  
+						actionListener="#{projectController.deleteCustomerFromWork()}"
+						 update=":form20:customerPerson,:form20:customerPerson1"
+						>
+				
+</p:commandButton>
+					<p:commandButton id="declineCustomerPerson2" value="No"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+						onclick="PF('confirmationCustomerPerson2').hide()" type="button" />
+
+				</p:outputPanel>
+			</p:dialog>
+			
+        </p:panel>
+    </ui:composition>

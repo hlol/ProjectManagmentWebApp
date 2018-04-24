@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+ <managed-bean>
+ <managed-bean-name>userController</managed-bean-name>
+        <managed-bean-class>edu.epi.jee.controllers.UserController</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+ </managed-bean>
+    <managed-bean>
+        <managed-bean-name>roleController</managed-bean-name>
+        <managed-bean-class>edu.epi.jee.controllers.RoleController</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>userGroupController</managed-bean-name>
+        <managed-bean-class>edu.epi.jee.controllers.UserGroupController</managed-bean-class>
+        <managed-bean-scope>none</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>customerController</managed-bean-name>
+        <managed-bean-class>edu.epi.jee.controllers.CustomerController</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>projectController</managed-bean-name>
+        <managed-bean-class>edu.epi.jee.controllers.ProjectController</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>workerController</managed-bean-name>
+        <managed-bean-class>edu.epi.jee.controllers.WorkerController</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>productController</managed-bean-name>
+        <managed-bean-class>edu.epi.jee.controllers.ProductController</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+     <managed-bean>
+        <managed-bean-name>workFlowGlobalController</managed-bean-name>
+        <managed-bean-class>edu.epi.jee.controllers.WorkFlowGlobalController</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+</faces-config>

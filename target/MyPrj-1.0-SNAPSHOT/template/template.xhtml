@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+	<f:view>
+		<h:head>
+			<title>Project&#x2122; Manager&#xAE; 1.0</title>
+			<h:outputStylesheet library="css" name="template.css" />
+			<h:outputStylesheet library="css" name="menu.css" />
+			<h:outputScript library="javascript"
+				name="primefacesCalendarLocale.js" />
+
+			<style type="text/css">
+.xyz:FIRST-CHILD {
+	color: White;
+}
+</style>
+
+
+		</h:head>
+		<h:body>
+
+			<h:panelGroup layout="block" id="global">
+				<h:panelGroup layout="block" id="header">
+					<h:panelGroup layout="block" id="logo" />
+					<h:form>
+						<h:panelGroup layout="block" id="menusContainer">
+							<h:panelGroup layout="block" id="stadiumSelection" />
+
+							<h:panelGroup layout="block" id="headerGeneralMenu" />
+						</h:panelGroup>
+						<h:panelGroup layout="block" id="headerMenu">
+							<h:panelGroup layout="block">
+								<a href="/debtcollect/j_spring_security_logout">Logout</a>
+							</h:panelGroup>
+							<ul id="menu" />
+						</h:panelGroup>
+					</h:form>
+				</h:panelGroup>
+				<h:panelGroup layout="block" id="middleBar" />
+				<h:panelGroup id="menuBar" styleClass="menuBar" layout="block">
+					<h:form>
+						<p:menubar>
+							<p:menuitem value="Dashboard" url="/dashboard/dashboard.jsf"
+								icon="ui-icon-help" />
+
+							<p:submenu label="Dossier de recouvrement" icon="ui-icon-help">
+								<p:menuitem value="Gestion des sociétés"
+									url="/dashboard/listCompanies.jsf" />
+								<p:submenu label="Gestion des contacts">
+									<p:menuitem value="ajouter contact"
+										url="/dashboard/AjoutContact.jsf" icon="ui-icon-home" />
+									<p:menuitem value="Lister les Contacts"
+										url="/dashboard/listContact.jsf" icon="ui-icon-home" />
+								</p:submenu>
+							</p:submenu>
+
+							<p:submenu label="Statistiques" icon="ui-icon-pencil">
+								<p:menuitem value="Statistique 1" url="#"
+									icon="ui-icon-arrowreturnthick-1-w" />
+								<p:menuitem value="Statistique 2" url="#"
+									icon="ui-icon-arrowreturnthick-1-e" />
+							</p:submenu>
+
+							<p:submenu label="Notifications" icon="ui-icon-pencil">
+								<p:menuitem value="Notif 1" url="#"
+									icon="ui-icon-arrowreturnthick-1-w" />
+								<p:menuitem value="Notif 2" url="#"
+									icon="ui-icon-arrowreturnthick-1-e" />
+							</p:submenu>
+
+
+							<p:submenu label="Configuration" icon="ui-icon-gear">
+								<p:submenu label="Utilisateurs" icon="ui-icon-refresh">
+									<p:menuitem value="Ajouter" url="/dashboard/addUser.jsf"
+										icon="ui-icon-home" />
+									<p:menuitem value="Liste des Utilisateurs"
+										url="/dashboard/listUser.jsf" icon="ui-icon-home" />
+								</p:submenu>
+								<p:menuitem value="Actions sur dossiers" icon="ui-icon-refresh"
+									url="/dashboard/listAction.jsf" />
+								<p:menuitem value="Statuts des dossiers" icon="ui-icon-refresh"
+									url="/dashboard/Statut.jsf" />
+								<p:menuitem value="Types de documents" icon="ui-icon-refresh"
+									url="/dashboard/listDoctype.jsf" />
+								<p:menuitem value="Templates de documents"
+									url="/dashboard/addOutputTemplate.jsf" icon="ui-icon-refresh" />
+								<p:menuitem value="Cours de devises" icon="ui-icon-refresh"
+									url="#" />
+								<p:menuitem value="Gestion des devises" icon="ui-icon-refresh"
+									url="/dashboard/listCurrencies.jsf"></p:menuitem>
+							</p:submenu>
+						</p:menubar>
+					</h:form>
+				</h:panelGroup>
+				<h:panelGroup layout="block" id="appMessages" />
+				<h:panelGroup id="contentBody" layout="block"
+					styleClass="contentBody">
+					<!--  	<h:messages globalOnly="true" />-->
+					<ui:insert name="content" />
+				</h:panelGroup>
+				<div style="clear: both;"></div>
+			</h:panelGroup>
+			<div id="footer">
+				<div id="version">Version 1.0</div>
+				<div id="copyright">
+					Copyright <strong> Tunisie</strong> &copy; 2018.All rights
+					reserved.
+				</div>
+			</div>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+				<p:commandButton value="Oui" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Non" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+		</h:body>
+	</f:view>
+</ui:composition>

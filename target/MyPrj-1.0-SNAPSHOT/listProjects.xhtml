@@ -1,0 +1,153 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml" xmlns:o="http://omnifaces.org/ui">
+
+<ui:define name="content">
+<h:form id="form1">
+			
+
+
+		</h:form>
+
+
+
+		<h:form id="form">
+
+
+			<p:contextMenu for="work">
+				<p:menuitem value="Afficher work" update="workDetail"
+					icon="ui-icon-search" oncomplete="PF('workDialog').show()" />
+
+				<p:menuitem value="manipulate Cmpany" update="manipulateDisplay"
+				icon="ui-icon-pencil" action="tasksManagement.jsf?faces-redirect=true" />
+				<!-- 	icon="ui-icon-pencil" oncomplete="PF('EditDialog').show()" /> -->
+
+			</p:contextMenu>
+
+
+
+
+			<p:dataTable id="work" var="work"
+                                     value="#{workFlowGlobalController.listProjects}" resizableColumns="true"
+				liveScroll="true" styleClass=".ui-datatable-hor-scroll"
+				tableStyle="table-layout:auto;width:100%;" scrollable="true"
+				paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                rowsPerPageTemplate="5,10,15" rowKey="#{work.idProject}"
+				filteredValue="#{workFlowGlobalController.filterWork}"
+				selection="#{workFlowGlobalController.selectedWork}"
+				selectionMode="single" style="margin-bottom:20px">
+				<f:facet name="header">
+            Liste des travaux
+        </f:facet>
+
+                            <p:column headerText="Nom" filterBy="#{work.nameProject}"
+					filterMatchMode="contains" sortBy="#{work.nameProject}">
+					<h:outputText value="#{work.nameProject}" />
+				</p:column>
+                            <p:column headerText="date de debut" filterBy="#{work.startDate}"
+					filterMatchMode="contains" sortBy="#{work.startDate}">
+					<h:outputText value="#{work.startDate}" />
+				</p:column>
+
+                            <p:column headerText="date fin" filterBy="#{work.endDate}"
+					filterMatchMode="contains" sortBy="#{work.endDate}">
+					<h:outputText value="#{work.endDate}" />
+				</p:column>
+                            <p:column headerText="phase actuelle" filterBy="#{work.numTask}"
+					filterMatchMode="contains" sortBy="#{work.numTask}">
+					<h:outputText value="#{work.numTask}" styleClass="white" style=" color:blue;" />
+					<p:commandLink  action="#{workFlowGlobalController.redirectBychoice}">
+     <h:graphicImage name="images/play.png" library="spark-layout" styleClass="MarAuto MarTop20 MarBot10" width="30"/>
+</p:commandLink>
+				</p:column>
+
+
+
+			</p:dataTable>
+
+
+
+
+
+			<p:dialog header="Information Company" widgetVar="workDialog"
+				modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+				 styleClass="blue">
+			
+				<p:outputPanel id="workDetail" style="text-align:center;">
+					<p:panelGrid columns="2"
+						rendered="#{not empty workFlowGlobalController.selectedWork}"
+						columnClasses="label,value">
+						<f:facet name="header">
+
+						</f:facet>
+ 
+						<h:outputText value="Id:" />
+						 
+                                                <h:outputText value="#{workFlowGlobalController.selectedWork.idProject}" />
+
+						<h:outputText value="Nom" />
+                                                <h:outputText value="#{workFlowGlobalController.selectedWork.nameProject}" />
+
+						<h:outputText value="date de debut:" />
+                                                <h:outputText value="#{workFlowGlobalController.selectedWork.startDate}" />
+
+						<h:outputText value="due date" />
+                                                <h:outputText value="#{workFlowGlobalController.selectedWork.endDate}" />
+
+						<h:outputText value="description" />
+						<h:outputText value="#{workFlowGlobalController.selectedWork.description}" />
+
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+
+
+			<p:dialog id="manipulate1" header="manipulate work" widgetVar="EditDialog"
+				resizable="false" showEffect="fade" hideEffect="fade" modal="true"
+				dynamic="true" responsive="true" height="660" width="1500" >
+				
+				<p:growl id="growl" showDetail="true" sticky="false" />
+			<p:panel>
+				<p:outputPanel id="manipulateDisplay" style="text-align:center;">
+				
+			
+                    <h:panelGroup layout="block" styleClass="Container50 Responsive50">
+                        <h:panelGroup layout="block" styleClass="ContainerIndent">
+                    <p:panelGrid columns="2"
+						rendered="#{not empty workFlowGlobalController.selectedWork}"
+						columnClasses="label,value">
+						<f:facet name="header">
+</f:facet>
+<h:outputText value="Nom" />
+<h:outputText value="#{workFlowGlobalController.selectedWork.nameProject}" />
+
+						<h:outputText value="date de debut:" />
+                                                <h:outputText value="#{workFlowGlobalController.selectedWork.startDate}" />
+						<h:outputText value="due date" />
+                                                <h:outputText value="#{workFlowGlobalController.selectedWork.endDate}" />
+
+						<h:outputText value="description" />
+						<h:outputText value="#{workFlowGlobalController.selectedWork.description}" />
+							<h:outputText value="Status" />
+						<h:outputText value="status" />
+
+</p:panelGrid>
+         
+</h:panelGroup>
+					<h:commandButton value=" Annuler " onclick="Dialog.hide()"
+						styleClass="ui-button-text ui-c ConfirmBottonMarg" immediate="true" />
+						</h:panelGroup>
+				</p:outputPanel>
+				</p:panel>
+				
+				</p:dialog>
+				<h:commandButton value=" add customer " action="#{workFlowGlobalController.addCustomer()}" /> 
+		</h:form>
+
+	</ui:define>
+</ui:composition>

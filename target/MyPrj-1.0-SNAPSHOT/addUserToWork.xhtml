@@ -1,0 +1,230 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+     <p:panel>
+	
+			<p:contextMenu for="user">
+				<p:menuitem value="Afficher user" update="userDetail"
+					icon="ui-icon-search" oncomplete="PF('userDialog').show()" />
+					
+				<p:menuitem value="add to the work" update="addUser1"
+					icon="ui-icon-close" onclick="PF('confirmation').show();" />
+
+			</p:contextMenu>
+			<p:contextMenu for="user1">
+				<p:menuitem value="Afficher user" update="userDetail2"
+					icon="ui-icon-search" oncomplete="PF('userDialog2').show()" />
+					
+				<p:menuitem value="delete user from the work " update="addUser2"
+					icon="ui-icon-close" onclick="PF('confirmation2').show();" />
+
+			</p:contextMenu>
+
+        <p:dataTable id="user" var="user"
+				value="#{projectController.listUsers}" resizableColumns="true"
+				liveScroll="true" styleClass=".ui-datatable-hor-scroll"
+				tableStyle="table-layout:auto;width:100%;" scrollable="true"
+				paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                rowsPerPageTemplate="5,10,15" rowKey="#{user.idUser}"
+				filteredValue="#{projectController.userfilter}"
+				selection="#{projectController.userSelected}"
+				selectionMode="single" style="margin-bottom:20px">
+				<f:facet name="header">
+            Liste des Contacts
+        </f:facet>
+
+
+				<p:column headerText="Nom" filterBy="#{user.lastName}"
+					filterMatchMode="contains" sortBy="#{user.lastName}">
+					<h:outputText value="#{user.lastName}" />
+				</p:column>
+				<p:column headerText="Prénom" filterBy="#{user.firstName}"
+					filterMatchMode="contains" sortBy="#{user.firstName}">
+					<h:outputText value="#{user.firstName}" />
+				</p:column>
+
+            <p:column headerText="Adresse" filterBy="#{user.address}"
+                      filterMatchMode="contains" sortBy="#{user.address}">
+                <h:outputText value="#{user.address}" />
+				</p:column>
+
+            <p:column headerText="Téléphone" filterBy="#{user.phone}"
+					filterMatchMode="contains" sortBy="#{user.phone}">
+                <h:outputText value="#{user.phone}" />
+				</p:column>
+				<p:column headerText="Email" filterBy="#{user.email}"
+					filterMatchMode="contains" sortBy="#{user.email}">
+					<h:outputText value="#{user.email}" />
+				</p:column>
+
+			</p:dataTable>
+			  <p:dataTable id="user1" var="user1"
+				value="#{projectController.listUsersWork}" resizableColumns="true"
+				liveScroll="true" styleClass=".ui-datatable-hor-scroll"
+				tableStyle="table-layout:auto;width:100%;" scrollable="true"
+				paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                rowsPerPageTemplate="5,10,15" rowKey="#{user1.idUser}"
+				selection="#{projectController.userworkSelected}"
+				selectionMode="single" style="margin-bottom:20px">
+				<f:facet name="header">
+            Liste des Contacts
+        </f:facet>
+
+
+				<p:column headerText="Nom" filterBy="#{user1.lastName}"
+					filterMatchMode="contains" sortBy="#{user1.lastName}">
+					<h:outputText value="#{user1.lastName}" />
+				</p:column>
+				<p:column headerText="Prénom" filterBy="#{user1.firstName}"
+					filterMatchMode="contains" sortBy="#{user1.firstName}">
+					<h:outputText value="#{user1.firstName}" />
+				</p:column>
+
+                              <p:column headerText="Adresse" filterBy="#{user1.address}"
+                                        filterMatchMode="contains" sortBy="#{user1.address}">
+                                  <h:outputText value="#{user1.address}" />
+				</p:column>
+
+				<p:column headerText="Téléphone" filterBy="#{user1.phone}"
+					filterMatchMode="contains" sortBy="#{user1.phone}">
+                                    <h:outputText value="#{user1.phone}" />
+				</p:column>
+				<p:column headerText="Email" filterBy="#{user1.email}"
+					filterMatchMode="contains" sortBy="#{user1.email}">
+					<h:outputText value="#{user1.email}" />
+				</p:column>
+
+			</p:dataTable>
+			<p:dialog header="Information User" widgetVar="userDialog"
+				modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="userDetail" style="text-align:center;">
+					<p:panelGrid columns="2"
+						rendered="#{not empty projectController.userSelected}"
+						columnClasses="label,value">
+						<f:facet name="header">
+
+						</f:facet>
+
+						<h:outputText value="Id:" />
+                                                <h:outputText value="#{projectController.userSelected.idUser}" />
+
+						<h:outputText value="Nom" />
+						<h:outputText value="#{projectController.userSelected.lastName}" />
+
+						<h:outputText value="Prénom:" />
+						<h:outputText value="#{projectController.userSelected.firstName}" />
+						
+						<h:outputText value="Date de Naissance:" />
+                                                <h:outputText value="#{projectController.userSelected.birthday}" />
+						
+					
+						<h:outputText value="Adresse principale:" />
+                                                <h:outputText value="#{projectController.userSelected.address}" />
+
+						
+						<h:outputText value="Ville" />
+						<h:outputText value="#{projectController.userSelected.city}" />
+
+						<h:outputText value="Pays" />
+						<h:outputText value="#{projectController.userSelected.country}" />
+
+						<h:outputText value="Téléphone 1" />
+						<h:outputText value="#{projectController.userSelected.phone}" />
+
+						
+						<h:outputText value="Email" />
+						<h:outputText value="#{projectController.userSelected.email}" />
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+			<p:dialog header="Confirmation" widgetVar="confirmation"
+				draggable="false" resizable="false" height="80" width="250"
+				showEffect="fade" modal="true" dynamic="true" responsive="true">
+				<h:outputText value="add this user?" />
+				<h:panelGroup class="EmptyBox10" />
+				<p:outputPanel id="addUser1" style="text-align:center;"
+					layout="block">
+
+					<p:commandButton id="confirm" value="Yes"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+						oncomplete="PF('confirmation').hide()"  
+						actionListener="#{projectController.addUserToWork()}"
+						 update=":form20:user,:form20:user1"
+						>
+                                        </p:commandButton>
+					<p:commandButton id="decline" value="No"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+						onclick="PF('confirmation').hide()" type="button" />
+
+				</p:outputPanel>
+			</p:dialog>
+     <p:dialog header="Information User" widgetVar="userDialog2"
+				modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="userDetail2" style="text-align:center;">
+					<p:panelGrid columns="2"
+						rendered="#{not empty projectController.userworkSelected}"
+						columnClasses="label,value">
+						<f:facet name="header">
+
+						</f:facet>
+
+						<h:outputText value="Id:" />
+                                                <h:outputText value="#{projectController.userworkSelected.idUser}" />
+
+						<h:outputText value="Nom" />
+						<h:outputText value="#{projectController.userworkSelected.lastName}" />
+
+						<h:outputText value="Prénom:" />
+						<h:outputText value="#{projectController.userworkSelected.firstName}" />
+						
+						<h:outputText value="Date de Naissance:" />
+                                                <h:outputText value="#{projectController.userworkSelected.birthday}" />
+						
+						<h:outputText value="Adresse principale:" />
+                                                <h:outputText value="#{projectController.userworkSelected.address}" />
+
+					
+						<h:outputText value="Ville" />
+						<h:outputText value="#{projectController.userworkSelected.city}" />
+
+						<h:outputText value="Pays" />
+						<h:outputText value="#{projectController.userworkSelected.country}" />
+
+						<h:outputText value="Téléphone 1" />
+						<h:outputText value="#{projectController.userworkSelected.phone}" />
+
+						<h:outputText value="Email" />
+						<h:outputText value="#{projectController.userworkSelected.email}" />
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+			<p:dialog header="Confirmation2" widgetVar="confirmation2"
+				draggable="false" resizable="false" height="80" width="250"
+				showEffect="fade" modal="true" dynamic="true" responsive="true">
+				<h:outputText value="delete this user?" />
+				<h:panelGroup class="EmptyBox10" />
+				<p:outputPanel id="addUser2" style="text-align:center;"
+					layout="block">
+
+					<p:commandButton id="confirm2" value="Yes"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+						oncomplete="PF('confirmation2').hide()"  
+						actionListener="#{projectController.deleteUserFromWork()}"
+						 update=":form20:user,:form20:user1"
+						>
+				
+</p:commandButton>
+					<p:commandButton id="decline2" value="No"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+						onclick="PF('confirmation2').hide()" type="button" />
+
+				</p:outputPanel>
+			</p:dialog>
+				<h:outputText value="Skip to last: " />
+                    <h:selectBooleanCheckbox value="#{projectController.skip}" />
+        </p:panel>
+    </ui:composition>

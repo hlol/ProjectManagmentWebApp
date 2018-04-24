@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/template.xhtml" xmlns:o="http://omnifaces.org/ui">
+
+<ui:define name="content">
+		<f:view>
+		<ui:include src="/listTasks.xhtml"></ui:include>
+	
+			<h:form id="form30">
+    <h2 class="TexAlCenter">Task management</h2>
+    <p:outputLabel value="Task management"></p:outputLabel>
+    <p:tabView id="tabview1" dynamic="true" cache="true" activeIndex="#{workFlowGlobalController.activeIndex}" value="#{workFlowGlobalController.listtasks}" var="task" >
+        <p:tab title="#{task.taskName}" >
+        <br/>
+        <p:panel>
+            <h:outputText value="#{task.taskName}" />
+            <br />
+              <h:outputText value="#{task.number}" />
+               <br />
+                <h:outputText value="#{task.description}" />
+                 <br />
+                <h:panelGrid  columns="3" >
+                        <p:commandButton value="onStart " id="onStart" actionListener="#{workFlowGlobalController.onStart()}"  styleClass="ui-priority-primary" disabled="#{workFlowGlobalController.showStart}" update=":form30">
+                             	   <f:setPropertyActionListener value="#{task}" target="#{workFlowGlobalController.selectedTask}" >
+         </f:setPropertyActionListener>
+         </p:commandButton>
+                        <p:commandButton value="inprogress " id="inprogress" actionListener="#{workFlowGlobalController.inprogressTask()}"  styleClass="ui-priority-primary" disabled="#{workFlowGlobalController.showProgress}" update=":form30"/>
+                      <p:commandButton value="complete " id="complete" actionListener="#{workFlowGlobalController.completeTask()}"  styleClass="ui-priority-primary" disabled="#{workFlowGlobalController.showcomplete}" update=":form30"/>
+
+                </h:panelGrid >
+                
+                <br/>
+             
+    </p:panel>
+        </p:tab>
+   
+    </p:tabView>
+   <p:panel style="margin-bottom:10px" >
+<p:progressBar id="pbar1" widgetVar="pbAjax" ajax="true" value="#{workFlowGlobalController.progress}" labelTemplate="{value}%" styleClass="animated" global="false">
+    </p:progressBar>
+    <p:poll interval="3" rendered=":pbar1" ></p:poll>
+    		<h:commandButton value=" Annuler " onclick="Dialog.hide()"
+						styleClass="ui-button-text ui-c ConfirmBottonMarg" immediate="true" />
+						
+			
+				</p:panel>
+				
+			</h:form>
+		</f:view>
+	</ui:define>
+	</ui:composition>

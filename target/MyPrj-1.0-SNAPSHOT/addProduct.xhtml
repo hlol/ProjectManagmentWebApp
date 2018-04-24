@@ -1,0 +1,112 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/template.xhtml" xmlns:o="http://omnifaces.org/ui">
+
+<ui:define name="content">
+		<f:view>
+			<h:form id="form">
+				<h:panelGroup layout="block"
+					styleClass="Container100 Responsive100 ui-fluid">
+					<h:panelGroup layout="block" styleClass="ContainerIndent">
+						<p:panel id="panel" header="New Contact">
+							<p:growl id="growl" showDetail="true" sticky="false" />
+							<p:messages id="msgs" />
+							<h:panelGroup layout="block"
+								styleClass="Container50 Responsive50">
+								<h:panelGroup layout="block" styleClass="ContainerIndent">
+									<h:panelGroup layout="block"
+										styleClass="Container100 Responsive50">
+										<h:panelGroup layout="block" styleClass="ContainerIndent">
+											<h:panelGroup layout="block"
+												styleClass="Container40 Responsive50 LabelsPad TexAlLeft">
+												<h:outputLabel for="name" value="Nom : *" />
+											</h:panelGroup>
+											<h:panelGroup layout="block"
+												styleClass="Container60 Responsive50 ">
+												<p:inputText id="name"
+													value="#{productController.productEntity.nameProduct}"
+													required="true" label="Name" styleClass="InTexWid">
+													<p:ajax update="msgName" event="keyup" />
+												</p:inputText>
+												<p:message for="name" id="msgName" display="icon" />
+												<p:watermark for="name" value="Nom" />
+											</h:panelGroup>
+										</h:panelGroup>
+									</h:panelGroup>
+									<h:panelGroup class="EmptyBox20" />
+									<h:panelGroup layout="block"
+										styleClass="Container100 Responsive50">
+										<h:panelGroup layout="block" styleClass="ContainerIndent">
+											<h:panelGroup layout="block"
+												styleClass="Container40 Responsive50 LabelsPad TexAlLeft">
+												<h:outputLabel for="code" value="code du produit *" />
+											</h:panelGroup>
+											<h:panelGroup layout="block"
+												styleClass="Container60 Responsive50 ">
+												<p:inputText id="code"
+													value="#{productController.productEntity.codeProduct}"
+													label="Adress1" required="false" styleClass="InTexWid">
+													<p:ajax update="msgCode" event="keyup" />
+												</p:inputText>
+												<p:message for="code" id="msgCode" display="icon" />
+												<p:watermark for="code" value="code de produit" />
+											</h:panelGroup>
+										</h:panelGroup>
+									</h:panelGroup>
+									<h:panelGroup class="EmptyBox20" />
+									<h:panelGroup layout="block"
+										styleClass="Container100 Responsive50">
+										<h:panelGroup layout="block" styleClass="ContainerIndent">
+											<h:panelGroup layout="block"
+												styleClass="Container40 Responsive50 LabelsPad TexAlLeft">
+												<h:outputLabel for="description"
+													value="description de produit *" />
+											</h:panelGroup>
+											<h:panelGroup layout="block"
+												styleClass="Container60 Responsive50 ">
+												<p:inputText id="description"
+													value="#{productController.productEntity.description}"
+													label="Adress2" required="false" styleClass="InTexWid">
+													<p:ajax update="msgProduct" event="keyup" />
+												</p:inputText>
+												<p:message for="description" id="msgProduct" display="icon" />
+												<p:watermark for="description" value=" despcription" />
+											</h:panelGroup>
+										</h:panelGroup>
+									</h:panelGroup>
+									<h:panelGroup class="EmptyBox20" />			
+							<h:panelGroup layout="block"
+								styleClass="Container35 Responsive50">
+								<h:panelGroup layout="block" styleClass="ContainerIndent" />
+							</h:panelGroup>
+							<h:panelGroup layout="block"
+								styleClass="Container33 Responsive50">
+								<h:panelGroup layout="block" styleClass="ContainerIndent">
+									<h:panelGroup layout="block"
+										styleClass="Container40 Responsive50">
+										<p:commandButton id="btn" value="Enregistrer" update="growl"
+											styleClass="ui-priority-primary"
+											actionListener="#{productController.newProduct()}"
+											action="listProducts?faces-redirect=true" />
+									</h:panelGroup>
+									<h:panelGroup layout="block"
+										styleClass="Container5 Responsive100">
+										<h:panelGroup layout="block" styleClass="ContainerIndent" />
+									</h:panelGroup>
+									<h:panelGroup layout="block"
+										styleClass="Container50 Responsive50">
+										<p:commandButton value="Vider les champs" type="reset" />
+									</h:panelGroup>
+								</h:panelGroup>
+							</h:panelGroup>
+							</h:panelGroup>
+						</p:panel>
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:form>
+		</f:view>
+	</ui:define>
+	</ui:composition>
