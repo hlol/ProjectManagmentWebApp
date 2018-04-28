@@ -564,35 +564,35 @@ public class WorkFlowGlobalController implements Serializable{
 	public void redirectBychoice () throws IOException
 	{ ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
              switch (selectedWork.getNumTask()) {
-                 case 1:
+                 case 0:
                      //return "ficheUpload.jsf?faces-redirect=true"
                     
                      context.redirect("ficheUpload.xhtml");
-                 case 2:
+                 case 1:
                      
                      
                     context.redirect("tasksProject.xhtml");
-                 case 3:
+                 case 2:
                     
                      
                     context.redirect("factureView.xhtml");
-                 case 4:
+                 case 3:
                     
 
                     context.redirect("contratUpload.xhtml");
-                 case 5:
+                 case 4:
                     
 
                     context.redirect("addResources.xhtml");
-                  case 6:
+                  case 5:
                       
 
                     context.redirect("generatePlaning.xhtml");
-                  case 7:
+                  case 6:
                      
 
                     context.redirect("processManagementTasks.xhtml");
-                   case 8:
+                   case 7:
                     
 
                     context.redirect("testProjetView.xhtml");

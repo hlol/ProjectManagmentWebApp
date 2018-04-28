@@ -408,13 +408,11 @@ public void deleteProductFromWork()
         this.listCustomerWork = listCustomerWork;
     }
     public void addProject() throws IOException
-{   //System.out.println("---"+projectEntity.getIdProject());
-    //projectEntity = new ProjectEntity();
-         ProjectEntity projectEntity1= projectDao.create(projectEntity);
- ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-context.redirect("listProjects.xhtml");
-	//return "listProjects.xhtml?faces-redirect=true";
-        
+{   
+        ProjectEntity projectEntity1= projectDao.create(projectEntity);
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        context.redirect("listProjects.xhtml");
+	
 }
 public String onFlowProcess(FlowEvent event) {
     if(skip) {
