@@ -5,9 +5,9 @@
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
 
  <managed-bean>
- <managed-bean-name>userController</managed-bean-name>
+        <managed-bean-name>userController</managed-bean-name>
         <managed-bean-class>edu.epi.jee.controllers.UserController</managed-bean-class>
-        <managed-bean-scope>view</managed-bean-scope>
+        <managed-bean-scope>session</managed-bean-scope>
  </managed-bean>
     <managed-bean>
         <managed-bean-name>roleController</managed-bean-name>
@@ -42,6 +42,16 @@
      <managed-bean>
         <managed-bean-name>workFlowGlobalController</managed-bean-name>
         <managed-bean-class>edu.epi.jee.controllers.WorkFlowGlobalController</managed-bean-class>
-        <managed-bean-scope>view</managed-bean-scope>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>planningController</managed-bean-name>
+        <managed-bean-class>edu.epi.jee.controllers.PlanningController</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>adminController</managed-bean-name>
+        <managed-bean-class>edu.epi.jee.controllers.AdminController</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
 </faces-config>

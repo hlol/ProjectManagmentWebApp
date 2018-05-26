@@ -1,0 +1,76 @@
+<ui:composition 
+
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    <h:form id="formm1">
+    <div id="layout-topbar" class="ShadowGray">
+    	<div id="layout-topbar-indent">
+        	<a href="dashboard.jsf"><h:graphicImage name="images/pmm.png" styleClass="Fleft" library="spark-layout" id="logo" class="Fleft"/></a>
+            <a href="#" id="mobile-menu-button" class="BordRad3 white ShowOnMobile"><i class="fa fa-bars"></i> Menu</a>
+            <a href="#" id="mobile-menu-button-gray" class="BordRad3 white ShowOnMobile"><i class="fa fa-caret-down"></i> Top Menu</a>
+            
+            <ul id="layout-topbar-menu">
+            	<li>
+                	<a href="j_spring_security_logout" class="Animated05"><i class="fa fa-sign-out"></i> Logout</a>
+                </li>
+               
+                <li class="fa fa-ellipsis-v menu-separator"></li>
+              <h:form id="nbrnotification">
+                <li id="notification">
+                	<a class="Animated05 CursPointer"><i class="fa fa-bell animated swing infinite red"></i> Notifications <span class="notification-bubble BordRad3 animated rubberBand" >
+                	<h:outputText id="txt_count" value="" />
+                	</span> <i class="fa fa-chevron-down Fs14 Fright ShowOnMobile"></i></a>
+                    <ul style="width:200px; margin-left:-45px;" class="Animated03 submenu" >
+                    	<h:panelGroup id="alvs">
+   
+                     <ui:repeat var="n" value="" >
+            
+             
+                    	<p:commandButton  styleClass="fa fa-envelope Fs18 blue" value="" update="">
+                    	   <f:setPropertyActionListener value="" target="" />
+                     <span class="Fright Fs16 TexAlRight"> <span class="Fs10 DispBlock" ></span></span></p:commandButton>
+                
+                    </ui:repeat>
+                    </h:panelGroup>
+                    </ul>
+                </li>
+                <p:dialog header="Information product" widgetVar="productDialog"
+				modal="true" showEffect="fade" hideEffect="fade" resizable="false" id = "diag1">
+				<p:outputPanel id="productDetail1" style="text-align:center;">
+            <p:panelGrid  columns="2" rendered="" columnClasses="label,value">
+              
+ 
+                <h:outputText value="Id:" />
+                <h:outputText value="" />
+ 
+                <h:outputText value="Title : " />
+                <h:outputText value="" />
+  <h:outputText value="Subject : " />
+                <h:outputText value="" />
+             </p:panelGrid>
+				</p:outputPanel>
+				</p:dialog>
+                </h:form>
+                <li class="fa fa-ellipsis-v menu-separator"></li>
+                <li>
+                	<a class="Animated05 CursPointer"><i class="fa fa-user"></i> <i class="fa fa-chevron-down Fs14 Fright ShowOnMobile"></i></a>
+                    <ul style="width:220px; margin-left:-10px;" class="Animated03 submenu">
+                    	<li><a class="Animated05"><i class="fa fa-user Fs30 Fleft"></i> <span class="Fright Fs20 TexAlRight">Hela Nemri<span class="Fs10 DispBlock">Last login 18:50</span></span></a></li>
+                        <li><a href="#" class="Animated05"><i class="fa fa-quote-right"></i> Notifications <span class="notification-bubble BordRad3 Fright">18</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+   </h:form>
+    <h:form id = "form11">
+ <p:growl id="someid" for="growl" />
+          <p:poll interval="5"  update="someid"/>
+  
+</h:form>
+
+</ui:composition>

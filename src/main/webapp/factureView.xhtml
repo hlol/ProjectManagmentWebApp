@@ -14,7 +14,7 @@
 			 <p:growl id="growl" sticky="true" showDetail="true"/>
 			<p:wizard flowListener="#{workController.onFlowProcess}">
         <p:tab id="information" title="information">
-            <p:panel header="work Details">
+            <p:panel header=" Details">
 			<h:form id="form10">
 				<p:panelGrid class="ui-noborder">
 
@@ -282,18 +282,15 @@
 						<h:panelGroup layout="block" styleClass="ContainerIndent">
 									<h:panelGroup layout="block"
 										styleClass="Container40 Responsive50">
-										<p:commandButton id="btn" value="Enregistrer" 
+										<p:commandButton id="btn" value="Save" 
 											styleClass="ui-priority-primary"
-											action="#{workFlowGlobalController.newFacture}"
+											action="#{workFlowGlobalController.newFacture()}"
 											 />
 									</h:panelGroup>
-									<h:panelGroup layout="block"
-										styleClass="Container5 Responsive100">
-										<h:panelGroup layout="block" styleClass="ContainerIndent" />
-									</h:panelGroup>
+									
 									<h:panelGroup layout="block"
 										styleClass="Container50 Responsive50">
-										<p:commandButton value="Vider les champs" type="reset" />
+										<p:commandButton value="Reset Values" type="reset" />
 									</h:panelGroup>
 								</h:panelGroup>
 			</h:form>

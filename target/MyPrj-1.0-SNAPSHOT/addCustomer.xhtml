@@ -23,7 +23,7 @@
 										<h:panelGroup layout="block" styleClass="ContainerIndent">
 											<h:panelGroup layout="block"
 												styleClass="Container40 Responsive50 LabelsPad TexAlLeft">
-												<h:outputLabel for="name" value="Nom : *" />
+												<h:outputLabel for="name" value="Last Name : *" />
 											</h:panelGroup>
 											<h:panelGroup layout="block"
 												styleClass="Container60 Responsive50 ">
@@ -33,7 +33,7 @@
 													<p:ajax update="msgName" event="keyup" />
 												</p:inputText>
 												<p:message for="name" id="msgName" display="icon" />
-												<p:watermark for="name" value="Nom" />
+												<p:watermark for="name" value="Last Name" />
 											</h:panelGroup>
 										</h:panelGroup>
 									</h:panelGroup>
@@ -43,7 +43,7 @@
 										<h:panelGroup layout="block" styleClass="ContainerIndent">
 											<h:panelGroup layout="block"
 												styleClass="Container40 Responsive50 LabelsPad TexAlLeft">
-												<h:outputLabel for="firstName" value="Prenom : *" />
+												<h:outputLabel for="firstName" value="First Name : *" />
 											</h:panelGroup>
 											<h:panelGroup layout="block"
 												styleClass="Container60 Responsive50 ">
@@ -53,7 +53,7 @@
 													<p:ajax update="msgFirstName" event="keyup" />
 												</p:inputText>
 												<p:message for="firstName" id="msgFirstName" display="icon" />
-												<p:watermark for="firstName" value="Prenom" />
+												<p:watermark for="firstName" value="First Name" />
 											</h:panelGroup>
 										</h:panelGroup>
 									</h:panelGroup>
@@ -73,7 +73,7 @@
 													<p:ajax update="Cin" event="keyup" />
 												</p:inputText>
 												<p:message for="cin" id="Cin" display="icon" />
-												<p:watermark for="cin" value="cin" />
+												<p:watermark for="cin" value="CIN" />
 											</h:panelGroup>
 										</h:panelGroup>
 									</h:panelGroup>
@@ -85,7 +85,7 @@
 											<h:panelGroup layout="block"
 												styleClass="Container40 Responsive50 LabelsPad TexAlLeft">
 												<h:outputLabel for="adress2"
-													value="Adresse complémentaire: *" />
+													value="Address: *" />
 											</h:panelGroup>
 											<h:panelGroup layout="block"
 												styleClass="Container60 Responsive50 ">
@@ -95,7 +95,7 @@
 													<p:ajax update="msgAdress2" event="keyup" />
 												</p:inputText>
 												<p:message for="adress2" id="msgAdress2" display="icon" />
-												<p:watermark for="adress2" value="Adress 2" />
+												<p:watermark for="adress2" value="Address" />
 											</h:panelGroup>
 										</h:panelGroup>
 									</h:panelGroup>
@@ -105,7 +105,7 @@
 										<h:panelGroup layout="block" styleClass="ContainerIndent">
 											<h:panelGroup layout="block"
 												styleClass="Container40 Responsive50 LabelsPad TexAlLeft">
-												<h:outputLabel for="areaCode" value="Code Postal: *" />
+												<h:outputLabel for="areaCode" value="Zip Code: *" />
 											</h:panelGroup>
 											<h:panelGroup layout="block"
 												styleClass="Container60 Responsive50 ">
@@ -115,7 +115,7 @@
 													<p:ajax update="msgAreaCode" event="keyup" />
 												</p:inputText>
 												<p:message for="areaCode" id="msgAreaCode" display="icon" />
-												<p:watermark for="areaCode" value="Code Postal" />
+												<p:watermark for="areaCode" value="Zip code" />
 											</h:panelGroup>
 										</h:panelGroup>
 									</h:panelGroup>
@@ -131,7 +131,7 @@
 										<h:panelGroup layout="block" styleClass="ContainerIndent">
 											<h:panelGroup layout="block"
 												styleClass="Container40 Responsive50 LabelsPad TexAlLeft">
-												<h:outputLabel for="country" value="Pays : *" />
+												<h:outputLabel for="country" value="City : *" />
 											</h:panelGroup>
 											<h:panelGroup layout="block"
 												styleClass="Container60 Responsive50 ">
@@ -141,7 +141,7 @@
 													<p:ajax update="msgCountry" event="keyup" />
 												</p:inputText>
 												<p:message for="country" id="msgCountry" display="icon" />
-												<p:watermark for="country" value="Pays" />
+												<p:watermark for="country" value="City" />
 											</h:panelGroup>
 										</h:panelGroup>
 										</h:panelGroup>
@@ -152,7 +152,7 @@
 										<h:panelGroup layout="block" styleClass="ContainerIndent">
 											<h:panelGroup layout="block"
 												styleClass="Container40 Responsive50 LabelsPad TexAlLeft">
-												<h:outputLabel for="phone1" value="Telephone 1 : *" />
+												<h:outputLabel for="phone1" value="Phone : *" />
 											</h:panelGroup>
 											<h:panelGroup layout="block"
 												styleClass="Container60 Responsive50 ">
@@ -162,7 +162,7 @@
 													<p:ajax update="msgGSM5" event="keyup" />
 												</p:inputMask>
 												<p:message for="phone1" id="msgGSM5" display="icon" />
-												<p:watermark for="phone1" value="Téléphone 1" />
+												<p:watermark for="phone1" value="Phone" />
 											</h:panelGroup>
 										</h:panelGroup>
 									</h:panelGroup>
@@ -200,7 +200,7 @@
 								<h:panelGroup layout="block" styleClass="ContainerIndent">
 									<h:panelGroup layout="block"
 										styleClass="Container40 Responsive50">
-										<p:commandButton id="btn" value="Enregistrer" update="growl"
+										<p:commandButton id="btn" value="Save" update="growl"
 											styleClass="ui-priority-primary"
                                                                                         actionListener="#{customerController.newCustomer()}"
 											action="listPersons?faces-redirect=true" />
@@ -211,7 +211,7 @@
 									</h:panelGroup>
 									<h:panelGroup layout="block"
 										styleClass="Container50 Responsive50">
-										<p:commandButton value="Vider les champs" type="reset" />
+										<p:commandButton value="Reset" type="reset" />
 									</h:panelGroup>
 								</h:panelGroup>
 							</h:panelGroup>

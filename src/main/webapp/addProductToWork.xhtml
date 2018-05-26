@@ -1,0 +1,183 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+     <p:panel>
+	
+			<p:contextMenu for="product">
+				<p:menuitem value="Afficher product" update="productDetail"
+					icon="ui-icon-search" oncomplete="PF('productDialog').show()" />
+					
+				<p:menuitem value="add to the work" update="addProduct1"
+					icon="ui-icon-close" onclick="PF('confirmationProduct').show();" />
+
+			</p:contextMenu>
+			<p:contextMenu for="product1">
+				<p:menuitem value="Afficher product" update="productDetail2"
+					icon="ui-icon-search" oncomplete="PF('productDialog2').show()" />
+					
+				<p:menuitem value="add to the work" update="addProduct2"
+					icon="ui-icon-close" onclick="PF('confirmationProduct2').show();" />
+
+			</p:contextMenu>
+
+        <p:dataTable id="product" var="product"
+				value="#{workFlowGlobalController.listProducts}" resizableColumns="true"
+				liveScroll="true" styleClass=".ui-datatable-hor-scroll"
+				tableStyle="table-layout:auto;width:100%;" scrollable="true"
+				paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15" rowKey="#{product.id_product}"
+				filteredValue="#{workFlowGlobalController.productfilter}"
+				selection="#{workFlowGlobalController.productSelected}"
+				selectionMode="single" style="margin-bottom:20px">
+				<f:facet name="header">
+            Liste des Contacts
+        </f:facet>
+
+
+				<p:column headerText="Nom" filterBy="#{product.nameProduct}"
+					filterMatchMode="contains" sortBy="#{product.nameProduct}">
+					<h:outputText value="#{product.nameProduct}" />
+				</p:column>
+				<p:column headerText="code :" filterBy="#{product.codeProduct}"
+					filterMatchMode="contains" sortBy="#{product.codeProduct}">
+					<h:outputText value="#{product.codeProduct}" />
+				</p:column>
+
+				<p:column headerText="description" filterBy="#{product.description}"
+					filterMatchMode="contains" sortBy="#{product.description}">
+					<h:outputText value="#{product.description}" />
+				</p:column>
+			</p:dataTable>
+			  <p:dataTable id="product1" var="product1"
+				value="#{workFlowGlobalController.listProductWork}" resizableColumns="true"
+				liveScroll="true" styleClass=".ui-datatable-hor-scroll"
+				tableStyle="table-layout:auto;width:100%;" scrollable="true"
+				paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15" rowKey="#{product1.id_product}"
+				selection="#{workFlowGlobalController.productworkSelected}"
+				selectionMode="single" style="margin-bottom:20px">
+				<f:facet name="header">
+            Liste des Contacts
+        </f:facet>
+
+
+				<p:column headerText="Nom" filterBy="#{product1.nameProduct}"
+					filterMatchMode="contains" sortBy="#{product1.nameProduct}">
+					<h:outputText value="#{product1.nameProduct}" />
+				</p:column>
+				
+				<p:column headerText="code :" filterBy="#{product1.codeProduct}"
+					filterMatchMode="contains" sortBy="#{product1.codeProduct}">
+					<h:outputText value="#{product1.codeProduct}" />
+				</p:column>
+
+				<p:column headerText="description" filterBy="#{product1.description}"
+					filterMatchMode="contains" sortBy="#{product1.description}">
+					<h:outputText value="#{product1.description}" />
+				</p:column>
+			
+
+			</p:dataTable>
+			<p:dialog header="Information Product" widgetVar="productDialog"
+				modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="productDetail" style="text-align:center;">
+					<p:panelGrid columns="2"
+						rendered="#{not empty workFlowGlobalController.productSelected}"
+						columnClasses="label,value">
+						<f:facet name="header">
+
+						</f:facet>
+
+						<h:outputText value="Id:" />
+						<h:outputText value="#{workFlowGlobalController.productSelected.id_product}" />
+
+						<h:outputText value="Nom" />
+						<h:outputText value="#{workFlowGlobalController.productSelected.nameProduct}" />
+
+						<h:outputText value="code :" />
+						<h:outputText value="#{workFlowGlobalController.productSelected.codeProduct}" />
+
+						<h:outputText value="description:" />
+						<h:outputText value="#{workFlowGlobalController.productSelected.description}" />
+
+						
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+			<p:dialog header="ComfirmationProduct" widgetVar="confirmationProduct"
+				draggable="false" resizable="false" height="80" width="250"
+				showEffect="fade" modal="true" dynamic="true" responsive="true">
+				<h:outputText value="add this product?" />
+				<h:panelGroup class="EmptyBox10" />
+				<p:outputPanel id="addProduct1" style="text-align:center;"
+					layout="block">
+
+					<p:commandButton id="confirmProduct" value="Yes"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+						oncomplete="PF('confirmationProduct').hide()"  
+						actionListener="#{workFlowGlobalController.addProductToWork()}"
+						 update=":form20:product,:form20:product1"
+						>
+				
+</p:commandButton>
+					<p:commandButton id="declineProduct" value="No"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+						onclick="PF('confirmationProduct').hide()" type="button" />
+
+				</p:outputPanel>
+			</p:dialog>
+     <p:dialog header="Information Product" widgetVar="productDialog2"
+				modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="productDetail2" style="text-align:center;">
+					<p:panelGrid columns="2"
+						rendered="#{not empty workFlowGlobalController.productworkSelected}"
+						columnClasses="label,value">
+						<f:facet name="header">
+
+						</f:facet>
+
+						<h:outputText value="Id:" />
+						<h:outputText value="#{workFlowGlobalController.productworkSelected.id_product}" />
+
+						<h:outputText value="Nom" />
+						<h:outputText value="#{workFlowGlobalController.productworkSelected.nameProduct}" />
+
+						
+			
+						<h:outputText value="code:" />
+						<h:outputText value="#{workFlowGlobalController.productworkSelected.codeProduct}" />
+
+						<h:outputText value="description:" />
+						<h:outputText value="#{workFlowGlobalController.productworkSelected.description}" />
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+			<p:dialog header="ComfirmationProduct2" widgetVar="confirmationProduct2"
+				draggable="false" resizable="false" height="80" width="250"
+				showEffect="fade" modal="true" dynamic="true" responsive="true">
+				<h:outputText value="add this product?" />
+				<h:panelGroup class="EmptyBox10" />
+				<p:outputPanel id="addProduct2" style="text-align:center;"
+					layout="block">
+
+					<p:commandButton id="confirmProduct2" value="Yes"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+						oncomplete="PF('confirmationProduct2').hide()"  
+						actionListener="#{workFlowGlobalController.deleteProductFromWork()}"
+						 update=":form20:product,:form20:product1"
+						>
+				
+</p:commandButton>
+					<p:commandButton id="declineProduct2" value="No"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+						onclick="PF('declineProduct2').hide()" type="button" />
+
+				</p:outputPanel>
+			</p:dialog>
+			
+        </p:panel>
+    </ui:composition>

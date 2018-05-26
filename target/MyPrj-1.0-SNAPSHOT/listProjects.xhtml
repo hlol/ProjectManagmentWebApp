@@ -7,32 +7,18 @@
 	template="/WEB-INF/template.xhtml" xmlns:o="http://omnifaces.org/ui">
 
 <ui:define name="content">
-<h:form id="form1">
-			
-
-
-		</h:form>
-
 
 
 		<h:form id="form">
 
 
 			<p:contextMenu for="work">
-				<p:menuitem value="Afficher work" update="workDetail"
+				<p:menuitem value="Project details" update="workDetail"
 					icon="ui-icon-search" oncomplete="PF('workDialog').show()" />
 
-				<p:menuitem value="manipulate Cmpany" update="manipulateDisplay"
-				icon="ui-icon-pencil" action="tasksManagement.jsf?faces-redirect=true" />
-				<!-- 	icon="ui-icon-pencil" oncomplete="PF('EditDialog').show()" /> -->
-
 			</p:contextMenu>
-
-
-
-
 			<p:dataTable id="work" var="work"
-                                     value="#{workFlowGlobalController.listProjects}" resizableColumns="true"
+                                     value="#{workFlowGlobalController.allProjects()}" resizableColumns="true"
 				liveScroll="true" styleClass=".ui-datatable-hor-scroll"
 				tableStyle="table-layout:auto;width:100%;" scrollable="true"
 				paginator="true" rows="10"
@@ -42,23 +28,23 @@
 				selection="#{workFlowGlobalController.selectedWork}"
 				selectionMode="single" style="margin-bottom:20px">
 				<f:facet name="header">
-            Liste des travaux
+            List of projects
         </f:facet>
 
-                            <p:column headerText="Nom" filterBy="#{work.nameProject}"
+                            <p:column headerText="Name" filterBy="#{work.nameProject}"
 					filterMatchMode="contains" sortBy="#{work.nameProject}">
 					<h:outputText value="#{work.nameProject}" />
 				</p:column>
-                            <p:column headerText="date de debut" filterBy="#{work.startDate}"
+                            <p:column headerText="Start Date" filterBy="#{work.startDate}"
 					filterMatchMode="contains" sortBy="#{work.startDate}">
 					<h:outputText value="#{work.startDate}" />
 				</p:column>
 
-                            <p:column headerText="date fin" filterBy="#{work.endDate}"
+                            <p:column headerText="End Date" filterBy="#{work.endDate}"
 					filterMatchMode="contains" sortBy="#{work.endDate}">
 					<h:outputText value="#{work.endDate}" />
 				</p:column>
-                            <p:column headerText="phase actuelle" filterBy="#{work.numTask}"
+                            <p:column headerText="Current Task" filterBy="#{work.numTask}"
 					filterMatchMode="contains" sortBy="#{work.numTask}">
 					<h:outputText value="#{work.numTask}" styleClass="white" style=" color:blue;" />
 					<p:commandLink  action="#{workFlowGlobalController.redirectBychoice}">
@@ -146,7 +132,6 @@
 				</p:panel>
 				
 				</p:dialog>
-				<h:commandButton value=" add customer " action="#{workFlowGlobalController.addCustomer()}" /> 
 		</h:form>
 
 	</ui:define>

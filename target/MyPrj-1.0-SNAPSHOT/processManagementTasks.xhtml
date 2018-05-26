@@ -11,9 +11,9 @@
 		<ui:include src="/listTasks.xhtml"></ui:include>
 	
 			<h:form id="form30">
-    <h2 class="TexAlCenter">Task management</h2>
+    
     <p:outputLabel value="Task management"></p:outputLabel>
-    <p:tabView id="tabview1" dynamic="true" cache="true" activeIndex="#{workFlowGlobalController.activeIndex}" value="#{workFlowGlobalController.listtasks}" var="task" >
+    <p:tabView id="tabview1" dynamic="true" cache="true" activeIndex="#{workFlowGlobalController.activeIndex}" value="#{workFlowGlobalController.allTasks()}" var="task" >
         <p:tab title="#{task.taskName}" >
         <br/>
         <p:panel>
@@ -43,7 +43,7 @@
 <p:progressBar id="pbar1" widgetVar="pbAjax" ajax="true" value="#{workFlowGlobalController.progress}" labelTemplate="{value}%" styleClass="animated" global="false">
     </p:progressBar>
     <p:poll interval="3" rendered=":pbar1" ></p:poll>
-    		<h:commandButton value=" Annuler " onclick="Dialog.hide()"
+    		<h:commandButton value=" Next " actionListener="#{workFlowGlobalController.next()}"
 						styleClass="ui-button-text ui-c ConfirmBottonMarg" immediate="true" />
 						
 			

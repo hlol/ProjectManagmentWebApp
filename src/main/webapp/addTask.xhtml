@@ -1,0 +1,63 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/template.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
+	<ui:define name="content">
+		<f:view>
+			<h:form id="form">
+				<p:panelGrid columns="2">
+					<f:facet name="header">
+						<h1>Task details</h1>
+					</f:facet>
+					<h:panelGroup layout="block" styleClass="Container60 Responsive50 LabelsPad TexAlLeft">
+						<h:outputLabel for="name" value="Task Name:" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="Container60 Responsive50 ">
+						<p:inputText id="name" value="#{workFlowGlobalController.taskEntity.taskName}"
+						required="true" label="Name" styleClass="InTexWid"></p:inputText>
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="Container60 Responsive50 LabelsPad TexAlLeft">
+						<h:outputLabel for="num" value="Number :" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="Container60 Responsive50 ">
+						<p:inputText id="num" value="#{workFlowGlobalController.taskEntity.number}"
+						required="true" label="Numero" styleClass="InTexWid"></p:inputText>
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="Container60 Responsive50 LabelsPad TexAlLeft">
+						<h:outputLabel for="estmationPoint" value="Estimation:" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass=" Container60 Responsive50 ">
+						<p:inputText id="estmationPoint" value="#{workFlowGlobalController.taskEntity.number}"
+						required="true" label="Numero" styleClass="InTexWid"></p:inputText>
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass=" Container60 Responsive50 LabelsPad TexAlLeft">
+						<h:outputLabel for="description" value="Description:" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="Container60 Responsive50 ">
+						<p:inputTextarea rows="10" cols="70"  queryDelay="750" minQueryLength="4" value="#{workFlowGlobalController.taskEntity.description}" />
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="Container40 Responsive50"></h:panelGroup>
+					<h:panelGroup layout="block" styleClass="ContainerIndent">
+						<h:panelGroup layout="block" styleClass="Container40 Responsive50">
+							<p:commandButton id="btn" value="Save" 
+							styleClass="ui-priority-primary"
+							actionListener="#{workFlowGlobalController.newtask()}"
+							action="tasksProject?faces-redirect=true" />
+						</h:panelGroup>
+						<h:panelGroup layout="block"
+										styleClass="Container5 Responsive100">
+							<h:panelGroup layout="block" styleClass="ContainerIndent" /></h:panelGroup>
+						<h:panelGroup layout="block"
+										styleClass="Container50 Responsive50">
+							<p:commandButton value="Reset Values" type="reset" />
+						</h:panelGroup>
+					</h:panelGroup>
+				</p:panelGrid>
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>

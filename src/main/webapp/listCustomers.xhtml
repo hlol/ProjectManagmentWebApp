@@ -7,17 +7,12 @@
 
 <ui:define name="content">
 <h:form id="form1">
-			<p:commandButton value="Ajouter un Customer"
+			<p:commandButton value="Add Customer"
 				action="addCustomer.jsf" icon="ui-icon-contact"></p:commandButton>
-    
-
+  
 		</h:form>
 
-
-
 		<h:form id="form">
-
-
 			<p:contextMenu for="person">
 				<p:menuitem value="Customer Details" update="personDetail"
 					icon="ui-icon-search" oncomplete="PF('personDialog').show()" />
@@ -34,7 +29,7 @@
 
 
 			<p:dataTable id="person" var="customer"
-                                     value="#{customerController.listCustomers}" resizableColumns="true"
+                                     value="#{customerController.allCustomers()}" resizableColumns="true"
 				liveScroll="true" styleClass=".ui-datatable-hor-scroll"
 				tableStyle="table-layout:auto;width:100%;" scrollable="true"
 				paginator="true" rows="10"
@@ -45,7 +40,7 @@
 				selectionMode="single" style="margin-bottom:20px">
 
 				<f:facet name="header">
-            Liste des Customers
+            List of Customers
         </f:facet>
 
 
@@ -139,7 +134,7 @@
 
 			<p:dialog header="Modifier Person" widgetVar="EditDialog"
 				resizable="false" showEffect="fade" hideEffect="fade" modal="true"
-				dynamic="true"  height="260" width="500">
+				dynamic="true" responsive="true" height="660" width="1500">
 
 				<p:growl id="growl" showDetail="true" sticky="false" />
 				<p:outputPanel id="EditDisplay" style="text-align:center;">
@@ -178,12 +173,43 @@
                                     </h:panelGroup>
                                 </h:panelGroup>
                             </h:panelGroup>
-                          
-                           
+                            
                             
                             
                       
-                           
+                            <h:panelGroup class="EmptyBox20"/>
+                             <h:panelGroup layout="block" styleClass="Container70 Responsive50">
+                                <h:panelGroup layout="block" styleClass="ContainerIndent">
+                                    <h:panelGroup layout="block" styleClass="Container43 Responsive50 LabelsPad TexAlLeft">
+                                        <h:outputLabel for="uniqueIdNumber" value="CIN: *" />
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" styleClass="Container30 Responsive50 ">
+                                        <p:inputText id="uniqueIdNumber" value="#{customerController.selectedCustomer.cin}" label="uniqueIdNumber"
+                                            required="false" styleClass="InTexWid">
+                                            <p:ajax update="msgUniqueIdNumber" event="keyup" />
+                                        </p:inputText>
+                                        <p:message for="uniqueIdNumber" id="msgUniqueIdNumber" display="icon" />
+                                        <p:watermark for="uniqueIdNumber" value="CIN" />
+                                    </h:panelGroup>
+                                </h:panelGroup>
+                            </h:panelGroup>
+                            <h:panelGroup class="EmptyBox20"/>
+                            <h:panelGroup layout="block" styleClass="Container70 Responsive50">
+                                <h:panelGroup layout="block" styleClass="ContainerIndent">
+                                    <h:panelGroup layout="block" styleClass="Container43 Responsive50 LabelsPad TexAlLeft">
+                                        <h:outputLabel for="adress1" value="Address: *" />
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" styleClass="Container30 Responsive50 ">
+                                        <p:inputText id="adress1" value="#{customerController.selectedCustomer.city}" label="Adress1" required="false"
+                                            styleClass="InTexWid">
+                                            <p:ajax update="msgAdress1" event="keyup" />
+                                        </p:inputText>
+                                        <p:message for="adress1" id="msgAdress1" display="icon" />
+                                        <p:watermark for="adress1" value="Address" />
+                                    </h:panelGroup>
+                                </h:panelGroup>
+                            </h:panelGroup>
+                            
                             <h:panelGroup class="EmptyBox20"/>
                             <h:panelGroup layout="block" styleClass="Container70 Responsive50">
                                 <h:panelGroup layout="block" styleClass="ContainerIndent">
@@ -200,63 +226,11 @@
                                     </h:panelGroup>
                                 </h:panelGroup>
                             </h:panelGroup>
+                           
                             <h:panelGroup class="EmptyBox20"/>
                             <h:panelGroup layout="block" styleClass="Container70 Responsive50">
                                 <h:panelGroup layout="block" styleClass="ContainerIndent">
                                     <h:panelGroup layout="block" styleClass="Container43 Responsive50 LabelsPad TexAlLeft">
-                                        <h:outputLabel for="city" value="City : *" />
-                                    </h:panelGroup>
-                                    <h:panelGroup layout="block" styleClass="Container30 Responsive50 ">
-                                        <p:inputText id="city" value="#{customerController.selectedCustomer.city}" required="false" label="City"
-                                            styleClass="InTexWid">
-                                            <p:ajax update="msgCity" event="keyup" />
-                                        </p:inputText>
-                                        <p:message for="city" id="msgCity" display="icon" />
-                                        <p:watermark for="city" value="City " />
-                                    </h:panelGroup>
-                                </h:panelGroup>
-                            </h:panelGroup>
-                        </h:panelGroup>
-                    </h:panelGroup>
-
-                    <h:panelGroup layout="block" styleClass="Container50 Responsive50">
-                        <h:panelGroup layout="block" styleClass="ContainerIndent">
-                            <h:panelGroup layout="block" styleClass="Container70 Responsive50">
-                                <h:panelGroup layout="block" styleClass="ContainerIndent">
-                                    <h:panelGroup layout="block" styleClass="Container40 Responsive50 LabelsPad TexAlLeft">
-                                        <h:outputLabel for="Web Site" value="Web Site : *" />
-                                    </h:panelGroup>
-                                    <h:panelGroup layout="block" styleClass="Container30 Responsive50 ">
-                                        <p:inputText id="country" value="#{customerController.selectedCustomer.siteweb}" required="false" label="Country"
-                                            styleClass="InTexWid">
-                                            <p:ajax update="msgCountry" event="keyup" />
-                                        </p:inputText>
-                                        <p:message for="country" id="msgCountry" display="icon" />
-                                        <p:watermark for="Web Site" value="Web Site" />
-                                    </h:panelGroup>
-                                </h:panelGroup>
-                            </h:panelGroup>
-                            <h:panelGroup class="EmptyBox20"/>
-                            <h:panelGroup layout="block" styleClass="Container70 Responsive50">
-                                <h:panelGroup layout="block" styleClass="ContainerIndent">
-                                    <h:panelGroup layout="block" styleClass="Container40 Responsive50 LabelsPad TexAlLeft">
-                                        <h:outputLabel for="phone1" value="Phone  : *" />
-                                    </h:panelGroup>
-                                    <h:panelGroup layout="block" styleClass="Container30 Responsive50 ">
-                                        <p:inputMask id="phone1" value="#{customerController.selectedCustomer.phone}" required="false" label="Phone 1"
-                                                     mask="(99999) 99999-999"  >
-                                            <p:ajax update="msgGSM5" event="keyup" />
-                                        </p:inputMask>
-                                        <p:message for="phone1" id="msgGSM5" display="icon" />
-                                        <p:watermark for="phone1" value="Phone" />
-                                    </h:panelGroup>
-                                </h:panelGroup>
-                            </h:panelGroup>
-                            
-                            <h:panelGroup class="EmptyBox20"/>
-                            <h:panelGroup layout="block" styleClass="Container70 Responsive50">
-                                <h:panelGroup layout="block" styleClass="ContainerIndent">
-                                    <h:panelGroup layout="block" styleClass="Container40 Responsive50 LabelsPad TexAlLeft">
                                         <h:outputLabel for="email" value="Email : *" />
                                     </h:panelGroup>
                                     <h:panelGroup layout="block" styleClass="Container30 Responsive50 ">
@@ -278,12 +252,12 @@
 				<h:panelGroup layout="block" styleClass="Responsive">
 					
 							
-					<p:commandButton value="  Update  "
+					<h:commandButton value="  Update  "
 						update=":form:EditDisplay growl"
-                                                styleClass="ui-button-text ui-c ConfirmBottonMarg" 
+						styleClass="ui-button-text ui-c ConfirmBottonMarg" reRender="worker"
                                                 actionListener="#{customerController.updateCustomer()}"
 						oncomplete="EditDialog.hide()" />
-&#160;&#160;&#160;
+
 					<h:commandButton value=" Cancel " onclick="Dialog.hide()"
 						styleClass="ui-button-text ui-c ConfirmBottonMarg" immediate="true" />
 						</h:panelGroup>
