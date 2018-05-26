@@ -8,8 +8,10 @@ package edu.epi.jee.entities;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -56,8 +58,10 @@ public class FicheEntity implements Serializable {
     @Column(name = "content")
     private String content;
    
-    @OneToOne(mappedBy="fiche")
-    private ProjectEntity project;
+   
+    @OneToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL,orphanRemoval = true)
+    @JoinColumn(name = "idProject", referencedColumnName = "idProject")
+    private ProjectEntity project ;
 
     public ProjectEntity getProject() {
         return project;
@@ -66,6 +70,10 @@ public class FicheEntity implements Serializable {
     public void setProject(ProjectEntity project) {
         this.project = project;
     }
+
+    
+     
+     
     public FicheEntity() {
     }
 

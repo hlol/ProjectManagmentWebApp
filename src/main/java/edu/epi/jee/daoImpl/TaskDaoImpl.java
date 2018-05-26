@@ -9,12 +9,14 @@ import edu.epi.jee.dao.GenericDaoImpl;
 import edu.epi.jee.dao.TaskDao;
 import edu.epi.jee.entities.TaskEntity;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.Query;
 
 /**
  *
  * @author HLOL
  */
+@Stateless
 public class TaskDaoImpl extends GenericDaoImpl<TaskEntity> implements TaskDao{
 
     @Override

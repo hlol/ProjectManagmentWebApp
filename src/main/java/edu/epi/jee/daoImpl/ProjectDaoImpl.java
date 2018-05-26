@@ -8,6 +8,7 @@ package edu.epi.jee.daoImpl;
 import edu.epi.jee.dao.GenericDaoImpl;
 import edu.epi.jee.dao.ProjectDao;
 import edu.epi.jee.entities.ProjectEntity;
+import edu.epi.jee.entities.UserEntity;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
@@ -26,5 +27,8 @@ public class ProjectDaoImpl extends GenericDaoImpl<ProjectEntity> implements Pro
 		return query.getResultList();
         }
 
+  
+    }
+    
+
 	
-}

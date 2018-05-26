@@ -1,5 +1,6 @@
 package edu.epi.jee.beans;
 
+import edu.epi.jee.entities.UserEntity;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -12,7 +13,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-	// Put user credentials from a DB, RemeberMe,..
 	private static Map<String, UserDetails> userRepository = new HashMap<String, UserDetails>();
 
 	static {
@@ -28,8 +28,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		userRepository.put(username, user);
 	}
 
-        @Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	System.out.println("....................."+username);
+
+//	dao.createTable();
+	UserEntity user = new UserEntity();
 		UserDetails matchingUser = userRepository.get(username);
 		if (matchingUser == null) {
 			throw new UsernameNotFoundException("Username or password incorrect!");

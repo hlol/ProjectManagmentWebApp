@@ -19,6 +19,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -67,9 +68,8 @@ public class TaskEntity implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "costTask")
     private Double costTask;
-    @JoinColumn(name = "idProject", referencedColumnName = "idProject")
-    @ManyToOne
-    private ProjectEntity project;
+    
+   
     
     @ManyToMany
     @JoinTable(name = "JOIN_workers_tasks", joinColumns = { @JoinColumn(name = "idTask", nullable = false, updatable = false) },
@@ -77,6 +77,10 @@ public class TaskEntity implements Serializable {
     
     private List<WorkerEntity>workers;
 
+    @JoinColumn(name = "idProject", referencedColumnName = "idProject")
+    @ManyToOne
+    private ProjectEntity project;
+    
     public ProjectEntity getProject() {
         return project;
     }

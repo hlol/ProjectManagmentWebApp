@@ -26,6 +26,13 @@ Query query = em.createQuery("select f FROM UserEntity f WHERE concat(f.firstNam
 	return 	 (UserEntity)query.getResultList().get(0);
 	}
 
+    @Override
+    public UserEntity findUserByFirstName(String name) {
+        Query query = em.createQuery("select f FROM UserEntity f WHEREf.firstName LIKE :name")
+    .setParameter("name", name);
+	return 	 (UserEntity)query.getResultList().get(0);
+    }
+
 	}
 	
 

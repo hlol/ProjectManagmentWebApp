@@ -8,11 +8,13 @@ package edu.epi.jee.controllers;
 import edu.epi.jee.dao.CustomerDao;
 import edu.epi.jee.dao.ProductDao;
 import edu.epi.jee.dao.ProjectDao;
+import edu.epi.jee.dao.TaskDao;
 import edu.epi.jee.dao.UserDao;
 import edu.epi.jee.dao.WorkerDao;
 import edu.epi.jee.entities.CustomerEntity;
 import edu.epi.jee.entities.ProductEntity;
 import edu.epi.jee.entities.ProjectEntity;
+import edu.epi.jee.entities.TaskEntity;
 import edu.epi.jee.entities.UserEntity;
 import edu.epi.jee.entities.WorkerEntity;
 import java.io.IOException;
@@ -20,7 +22,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import static javassist.CtClass.version;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -41,7 +42,15 @@ private ProjectDao projectDao;
 @EJB
 private UserDao userDao ;
 @EJB
-private WorkerDao workerDao ;
+private TaskDao taskDao;
+
+    public TaskDao getTaskDao() {
+        return taskDao;
+    }
+
+    public void setTaskDao(TaskDao taskDao) {
+        this.taskDao = taskDao;
+    }
 
 @EJB
 private CustomerDao customerDao;
@@ -65,6 +74,8 @@ private List<UserEntity> droppedworker;
 private List<ProductEntity> productfilter;
 private List<CustomerEntity> customerfilter ;
 
+
+  
     public List<CustomerEntity> getCustomerfilter() {
         return customerfilter;
     }
@@ -94,7 +105,8 @@ public void init() {
 	listUsersWork = new ArrayList<UserEntity>() ;	
 	listCustomers = customerDao.findAllCustomers();
 	listCustomerWork = new ArrayList<CustomerEntity>() ;
-	 
+	
+        
 }
 public void addUserToWork(){
 	
@@ -105,7 +117,7 @@ public void addUserToWork(){
 	if(listUsers!=null)
 	listUsers.remove(userSelected);
        
-      // projectEntity.setUsers(listUsersWork);
+    //   projectEntity.setUsers(listUsersWork);
      
 }
     public void deleteUserFromWork()
@@ -183,13 +195,7 @@ public void deleteProductFromWork()
         this.userDao = userDao;
     }
 
-    public WorkerDao getWorkerDao() {
-        return workerDao;
-    }
-
-    public void setWorkerDao(WorkerDao workerDao) {
-        this.workerDao = workerDao;
-    }
+  
 
     public CustomerDao getCustomerDao() {
         return customerDao;

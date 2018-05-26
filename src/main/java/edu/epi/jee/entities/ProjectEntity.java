@@ -76,8 +76,7 @@ public class ProjectEntity implements Serializable {
     @ManyToOne
     private CustomerEntity customer;
 
-    //@ManyToMany(mappedBy="projects",cascade = CascadeType.ALL)
-    //private List<UserEntity>users;
+   
 
      @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
      @JoinTable(name = "projects_users", joinColumns = { @JoinColumn(name = "idProject", referencedColumnName = "idProject") },
@@ -90,18 +89,35 @@ public class ProjectEntity implements Serializable {
     @ManyToMany(mappedBy="projects")
     private List<ProductEntity> products;
     
-    @JoinColumn(name = "idFiche", referencedColumnName = "idFiche")
-    @OneToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL,orphanRemoval = true)
-    private FicheEntity fiche ;
 
-    @OneToMany(mappedBy="project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL,fetch =FetchType.EAGER)
     private List<TaskEntity> tasks; 
     
     @JoinColumn(name = "idStatus", referencedColumnName = "idStatus")
     @ManyToOne
     private StatusEntity status;
+    
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private List<FactureEntity> factures; 
 
-   
+    public List<FactureEntity> getFactures() {
+        return factures;
+    }
+
+    public void setFactures(List<FactureEntity> factures) {
+        this.factures = factures;
+    }
+
+    @OneToOne(mappedBy="project")
+    private FicheEntity fiche;
+
+    public FicheEntity getFiche() {
+        return fiche;
+    }
+
+    public void setFiche(FicheEntity fiche) {
+        this.fiche = fiche;
+    }
     public StatusEntity getStatus() {
         return status;
     }
@@ -117,13 +133,7 @@ public class ProjectEntity implements Serializable {
         this.tasks = tasks;
     }
     
-    public FicheEntity getFiche() {
-        return fiche;
-    }
-
-    public void setFiche(FicheEntity fiche) {
-        this.fiche = fiche;
-    }
+   
     
     public CustomerEntity getCustomer() {
         return customer;

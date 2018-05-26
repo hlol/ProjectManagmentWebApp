@@ -28,12 +28,13 @@ private List<CustomerEntity> filterCustomer ;
     public CustomerController() {
         this.customerEntity = new CustomerEntity();
     }
-@PostConstruct
-public void init() {
-	listCustomers = customerDAO.findAllCustomers();
-	customerEntity = new CustomerEntity();
-	
-}
+    
+    public List<CustomerEntity>allCustomers(){
+        listCustomers = customerDAO.findAllCustomers();
+        return listCustomers;
+    }
+
+
 public String newCustomer(){
 	CustomerEntity p1 = customerDAO.create(customerEntity);
 	listCustomers  = customerDAO.findAllCustomers();

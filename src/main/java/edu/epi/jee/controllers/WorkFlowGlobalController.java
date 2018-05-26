@@ -18,7 +18,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
@@ -43,15 +42,14 @@ import org.primefaces.model.StreamedContent;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
-import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartModel;
-import org.primefaces.model.chart.LineChartSeries;
 import org.primefaces.model.chart.PieChartModel;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
@@ -61,31 +59,17 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
-//import com.soarco.facturation.TestBasic;
 import edu.epi.jee.dao.ContratDao;
 
-
-//import edu.epi.jee.dao.SpecificationDao;
-//import edu.epi.jee.dao.ContratDao;
 import edu.epi.jee.dao.CustomerDao;
 import edu.epi.jee.dao.FactureDao;
 import edu.epi.jee.dao.FicheDao;
 import edu.epi.jee.dao.NotificationDao;
-//import edu.epi.jee.dao.FactureDao;
-//import edu.epi.jee.dao.FicheDao;
-//import edu.epi.jee.dao.NotificationDao;
-
-
-
 import edu.epi.jee.dao.ProductDao;
 import edu.epi.jee.dao.ProjectDao;
 import edu.epi.jee.dao.StatusDao;
-
-//import edu.epi.jee.dao.StatusDao;
-//import edu.epi.jee.dao.TaskDao;
+import edu.epi.jee.dao.TaskDao;
 import edu.epi.jee.dao.UserDao;
-//import edu.epi.jee.dao.TaskDao;
-import edu.epi.jee.dao.WorkerDao;
 import edu.epi.jee.entities.ContratEntity;
 import edu.epi.jee.entities.CustomerEntity;
 import edu.epi.jee.entities.FactureEntity;
@@ -97,9 +81,12 @@ import edu.epi.jee.entities.StatusEntity;
 import edu.epi.jee.entities.TaskEntity;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import javax.faces.bean.SessionScoped;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class WorkFlowGlobalController implements Serializable{
 	 private static final DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	private boolean viewChart = false ;
@@ -108,7 +95,7 @@ public class WorkFlowGlobalController implements Serializable{
 	   private StreamedContent chart;
 	@EJB
 	private ContratDao contratDao ; 
-	private ContratEntity ContratEntity ;
+	private ContratEntity contratEntity ;
 	private String destinationContract="C:\\tmp\\";
 	private List<TaskEntity>listTasks ;
 	private String idImage ;
@@ -117,12 +104,14 @@ public class WorkFlowGlobalController implements Serializable{
 	@EJB
 	private ProjectDao projectDao;
 
-   
+        @EJB
+        private TaskDao taskDao;
+        
 	@EJB
 	private UserDao userDao ;
         
 	@EJB
-	private WorkerDao workerDao ;
+	private FactureDao factureDao ;
 	
 	@EJB
 	private CustomerDao customerDao;
@@ -140,6 +129,37 @@ public class WorkFlowGlobalController implements Serializable{
 	private ProjectEntity selectedWork;
 	private String choix;
 	private TaskEntity selectedTask ;
+         private List<FactureEntity> listFactures;
+public List<TaskEntity>alltasksByProject()
+        {
+         tasksByProject= new ArrayList<TaskEntity>();
+          tasksByProject=selectedWork.getTasks();
+           
+            return tasksByProject;
+        }
+    public TaskDao getTaskDao() {
+        return taskDao;
+    }
+
+    public void setTaskDao(TaskDao taskDao) {
+        this.taskDao = taskDao;
+    }
+
+    public FactureDao getFactureDao() {
+        return factureDao;
+    }
+
+    public void setFactureDao(FactureDao factureDao) {
+        this.factureDao = factureDao;
+    }
+
+    public List<FactureEntity> getListFactures() {
+        return listFactures;
+    }
+
+    public void setListFactures(List<FactureEntity> listFactures) {
+        this.listFactures = listFactures;
+    }
 	@EJB
 	private FicheDao ficheDao ; 
 	@EJB
@@ -168,12 +188,64 @@ public class WorkFlowGlobalController implements Serializable{
 	private FactureEntity factureEntity;
 	
 	private FactureEntity factureSelected ;
-        private List<TaskEntity> tasksByFactures;
-       /* @EJB
-        private TaskDao taskService1 ;*/
+        private List<TaskEntity> tasksByProject;
+      
         @EJB
         private StatusDao statusService ;
+        
+        public List<ProjectEntity> allProjects(){
+        
+        listProjects= projectDao.findAllProjects();
+        return listProjects;
+        }
+        
+        public List <TaskEntity> allTasks(){
+        listtasks = taskDao.findAllTasks();
+        return listtasks;
+        }
+        @PostConstruct
+	public void init() {
+		 TaskEntity t1 = new TaskEntity("task1",1,"convention");
+		 TaskEntity t2 = new TaskEntity("task2",2,"planing");
+		 TaskEntity t3 = new TaskEntity("task3",3,"confirmation");
+		 TaskEntity t4 = new TaskEntity("task4",4,"associate the users");
+		 TaskEntity t5 = new TaskEntity("task5",5,"work in progress");
+		 TaskEntity t6 = new TaskEntity("task6",6,"terminated work");
+                 //listProjects= projectDao.findAllProjects();
+                selectedWork =  new ProjectEntity();
+		listfiches  = ficheDao.findAllFiches();
+		ficheEntity = new FicheEntity();
+		contratEntity = new ContratEntity();
+		activeIndex = 1 ;
+		 taskDao.create(t1);
+		 taskDao.create(t2);
+		 taskDao.create(t3);
+		 taskDao.create(t4);
+		 taskDao.create(t5);
+		 taskDao.create(t6);
+		 StatusEntity s1 = new StatusEntity("start","yellow",1);
+		 StatusEntity s2 = new StatusEntity("inprogress","green",2);
+		 StatusEntity s3 = new StatusEntity("complete","red",3);
+		 statusService.create(s1);
+		 statusService.create(s2); 
+		 statusService.create(s3);
+		 factureEntity = new FactureEntity();
+                 taskEntity = new TaskEntity();
+                 
+		 
+		
+		
+	
+        
+	}
 
+    public List<TaskEntity> getTasksByProject() {
+        return tasksByProject;
+    }
+
+    public void setTasksByProject(List<TaskEntity> tasksByProject) {
+        this.tasksByProject = tasksByProject;
+    }
     public String getDestinationContract() {
         return destinationContract;
     }
@@ -246,13 +318,7 @@ public class WorkFlowGlobalController implements Serializable{
         this.pageNumber = pageNumber;
     }
 
-   /* public TaskDao getTaskService1() {
-        return taskService1;
-    }
-
-    public void setTaskService1(TaskDao taskService1) {
-        this.taskService1 = taskService1;
-    }*/
+  
 
     public StatusDao getStatusService() {
         return statusService;
@@ -358,18 +424,9 @@ public class WorkFlowGlobalController implements Serializable{
         this.newtasksfound = newtasksfound;
     }
 
-    public KieSession getKsession() {
-        return ksession;
-    }
-
-    public void setKsession(KieSession ksession) {
-        this.ksession = ksession;
-    }
+  
 	@EJB
 	private ProjectDao workService ; 
-	
-
-	
 	
 	private List<StatusEntity> listStatus ; 
 	private ProjectEntity work;
@@ -379,10 +436,10 @@ public class WorkFlowGlobalController implements Serializable{
 	private ProductEntity productSelected ; 
 	private ProductEntity productworkSelected ; 
 	private  URL instanceurl;
-	private  String deploymentId = "com.soarco:SoarcoWorkflow:1.0";
+	private  String deploymentId = "com.workflow:1.0";
 	private  String user = "admin";
 	private  String password = "admin";
-	private  String processID = "SoarcoWorkflow.workflowSoarco";
+	private  String processID = "Workflow.workflow";
 	private  RemoteRuntimeEngine engine;
 	//private TaskSummary selectedtask = null;
 	private String taskUserId ; 
@@ -402,47 +459,7 @@ public class WorkFlowGlobalController implements Serializable{
 	public void setSelectedWork(ProjectEntity selectedWork) {
 		this.selectedWork = selectedWork;
 	}
-	@PostConstruct
-	public void init() {
-		 TaskEntity t1 = new TaskEntity("task1",1,"convention");
-		 TaskEntity t2 = new TaskEntity("task2",2,"planing");
-		 TaskEntity t3 = new TaskEntity("task3",3,"confirmation");
-		 TaskEntity t4 = new TaskEntity("task4",4,"associate the users");
-		 TaskEntity t5 = new TaskEntity("task5",5,"work in progress");
-		 TaskEntity t6 = new TaskEntity("task6",6,"terminated work");
-		 /*taskDao.create(t1);
-		 taskDao.create(t2);
-		 taskDao.create(t3);
-		 taskDao.create(t4);
-		 taskDao.create(t5);
-		 taskDao.create(t6);*/
-		 StatusEntity s1 = new StatusEntity("start","yellow",1);
-		 StatusEntity s2 = new StatusEntity("inprogress","green",2);
-		 StatusEntity s3 = new StatusEntity("complete","red",3);
-		 statusService.create(s1);
-		 statusService.create(s2); 
-		 statusService.create(s3);
-		 factureEntity = new FactureEntity();
-		taskEntity = new TaskEntity();
-		//listtasks = taskDao.findAllTasks();
-		// selectedTask = new TaskEntity() ;
-		 ProjectEntity w1 =  new ProjectEntity("w1",null ,null, "w1", 1);
-		 ProjectEntity w2 =  new ProjectEntity("w2",null ,null, "w2",2);
-		 ProjectEntity w3 =  new ProjectEntity("w3",null ,null, "w3",3);
-		 ProjectEntity w4 =  new ProjectEntity("w4",null ,null, "w4",4);
-		 projectDao.create(w1);
-		 projectDao.create(w2);
-		 projectDao.create(w3);
-		 projectDao.create(w4);
-		listProjects= projectDao.findAllProjects();
-		selectedWork =  new ProjectEntity();
-		listfiches  = ficheDao.findAllFiches();
-		ficheEntity = new FicheEntity();
-		ContratEntity = new ContratEntity();
-		activeIndex = 1 ;
 	
-        
-	}
 	/************* create char bar *****/
 	public BarChartModel getBarModel() {
         return barModel;
@@ -499,12 +516,7 @@ public class WorkFlowGlobalController implements Serializable{
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
 	}
-	public WorkerDao getWorkerDao() {
-		return workerDao;
-	}
-	public void setWorkerDao(WorkerDao workerDao) {
-		this.workerDao = workerDao;
-	}
+	
 	
 	public CustomerDao getCustomerDao() {
 		return customerDao;
@@ -561,13 +573,17 @@ public class WorkFlowGlobalController implements Serializable{
 	public void setChoix(String choix) {
 		this.choix = choix;
 	}
-	public void redirectBychoice () throws IOException
+	public String redirectBychoice () throws IOException
 	{ ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        
              switch (selectedWork.getNumTask()) {
                  case 0:
-                     //return "ficheUpload.jsf?faces-redirect=true"
+                     System.out.println("*******************idProject********************");
+                System.out.println("---"+selectedWork.getIdProject());
+               
+                     return "ficheUpload.jsf?faces-redirect=true";
                     
-                     context.redirect("ficheUpload.xhtml");
+                   
                  case 1:
                      
                      
@@ -583,41 +599,72 @@ public class WorkFlowGlobalController implements Serializable{
                  case 4:
                     
 
-                    context.redirect("addResources.xhtml");
+                    context.redirect("generatePlaning.xhtml");
+                  
                   case 5:
                       
-
-                    context.redirect("generatePlaning.xhtml");
-                  case 6:
-                     
-
                     context.redirect("processManagementTasks.xhtml");
-                   case 7:
-                    
+                  case 6 : 
+                
+                    context.redirect("projectCompleted.xhtml");
 
-                    context.redirect("testProjetView.xhtml");
+                    
                       default:
                        break;
              }
 	
                     context.redirect("listProjects.xhtml");
+                    return null;
+	}
+        /******** tasks Management *******/
+	public String newtask(){
+                taskEntity.setProject(selectedWork);
+		TaskEntity c1 = taskDao.create(taskEntity);
+		listtasks = taskDao.findAllTasks();
+		selectedWork.setTasks(listtasks);
+		selectedWork.setNumTask(2);
+		selectedWork = projectDao.update(selectedWork);
+		
+		
+                 return "listProjects.xhtml?faces-redirect=true";
 	}
 	/******** create client needs*******/
 	public String newFiche() throws IOException{
 		readPdfContent();
+                System.out.println("*******************idProject********************");
+                System.out.println("---"+selectedWork.getIdProject());
+                listProjects= projectDao.findAllProjects();
 		FicheEntity e1 = ficheDao.create(ficheEntity);
-		ficheSelected = e1;
-		selectedWork.setFiche(e1);
-		selectedWork.setNumTask(selectedWork.getNumTask()+1);
-		projectDao.update(selectedWork);
-		listfiches = ficheDao.findAllFiches();
 		
-				return null;
+                System.out.println("***************************************");
+                System.out.println("---"+ficheEntity.getIdFiche());
+                selectedWork.setNumTask(selectedWork.getNumTask()+1);
+                e1.setProject(selectedWork);
+		
+		
+		ficheDao.update(e1);
+               
+		return "listProjects.xhtml?faces-redirect=true";
+
+	}
+        /**************** add facture
+     * @throws java.io.FileNotFoundException ****************/
+	public String newFacture() throws FileNotFoundException, IOException
+	{
+	  String pdfFilename = "sdkjdslk.pdf";
+	  createPDF(pdfFilename);
+          factureEntity.setProject(selectedWork);
+          FactureEntity f = factureDao.create(factureEntity);
+          
+        
+	  selectedWork.setNumTask(selectedWork.getNumTask()+1);
+          selectedWork = projectDao.update(selectedWork);
+		return "listProjects.xhtml?faces-redirect=true";
+                
 	}
 	public void upload(FileUploadEvent event) {  
 	    FacesMessage msg = new FacesMessage("Success! ", event.getFile().getFileName() + " is uploaded.");  
 	    FacesContext.getCurrentInstance().addMessage(null, msg);
-	    // Do what you want with the file        
 	    try {
 	        copyFile(event.getFile().getFileName(), event.getFile().getInputstream());
 	        ficheEntity.setDocumentUrl(destination+event.getFile().getFileName());
@@ -694,8 +741,8 @@ public class WorkFlowGlobalController implements Serializable{
 	}
 	public void downloadPdf() throws IOException {
 		String PDF_URL = "file:/"+path;
-		URL url1 = new URL("file:/E:/tmp/cars.pdf");
-		System.out.println(url1.getFile());  // "/tmp/foo.txt"
+		URL url1 = new URL("file:/C:/tmp/cars.pdf");
+		System.out.println(url1.getFile());  
 		File file = new File(url1.getFile());
 		System.out.print("*********************");
 		System.out.println(file.exists()); // false
@@ -730,10 +777,7 @@ public class WorkFlowGlobalController implements Serializable{
         pdfInputStream.close();
         responseOutputStream.close();
         
-        // JSF doc: 
-        // Signal the JavaServer Faces implementation that the HTTP response for this request has already been generated 
-        // (such as an HTTP redirect), and that the request processing lifecycle should be terminated
-        // as soon as the current phase is completed.
+       
         facesContext.responseComplete();
         
 	}
@@ -742,20 +786,7 @@ public class WorkFlowGlobalController implements Serializable{
 		String  ch ="" ;
 		PdfReader reader = new PdfReader("file:/C:/tmp/cars.pdf");
           System.out.println("************************"+reader.getPdfVersion());
-		/*
-          PdfReaderContentParser parser = new
-
-		   PdfReaderContentParser(reader);
-
-		TextExtractionStrategy strategy = null;
-
-		for(int i = 0; i <= reader.getNumberOfPages(); i++) {
-
-		       strategy = parser.processContent(i,new SimpleTextExtractionStrategy());
-
-		       System.out.println(strategy.getResultantText()+"--------");
-ch = ch + strategy.getResultantText() ;
-*/
+		
           String textFromPage = PdfTextExtractor.getTextFromPage(reader, 1);
 
           System.out.println(textFromPage+".....................");
@@ -766,28 +797,18 @@ ch = ch + strategy.getResultantText() ;
 		ficheEntity.setContent(textFromPage.substring(0, 100));
 	}
 	
-	/****************************/
-	/******** tasks Management *******/
-	/*public String newtask(){
-		TaskEntity c1 = taskDao.create(taskEntity);
-		listtasks = taskDao.findAllTasks();
-		selectedWork.setTasks(listTasks);
-		selectedWork.setNumTask(2);
-		selectedWork = projectDao.update(selectedWork);
-		taskEntity = new TaskEntity();
-		return null;
-	}*/
+	
 
-/**************/
+
 	/********* test phase ***********/
-	public String viewDashbord()
+	/*public String viewDashbord()
 	{
 		 createAnimatedModels();
 		 createBarModels();
 		 viewChart =true;
 		return null;
 	}
-	private void createAnimatedModels() {
+	/*private void createAnimatedModels() {
 	    animatedModel1 = initLinearModel();
 	    animatedModel1.setTitle("Line Chart");
 	    animatedModel1.setAnimate(true);
@@ -804,16 +825,16 @@ ch = ch + strategy.getResultantText() ;
 	    yAxis.setMin(0);
 	    yAxis.setMax(200);
 	    
-	  //  animatedModel3 = createPieModel1();
+	    animatedModel3 = createPieModel1();
 	    animatedModel3.setTitle("Bar Charts");
 	    animatedModel3.setLegendPosition("ne");
 	    yAxis = animatedModel2.getAxis(AxisType.Y);
 	    yAxis.setMin(0);
 	    yAxis.setMax(200);
 	    
-	}
+	}*/
 	 
-	private BarChartModel initBarModel() {
+/*	private BarChartModel initBarModel() {
 	    BarChartModel model = new BarChartModel();
 
 	    ChartSeries boys = new ChartSeries();
@@ -863,29 +884,29 @@ ch = ch + strategy.getResultantText() ;
 	    model.addSeries(series2);
 	     
 	    return model;
-	}
+	}*/
 	public LineChartModel getAnimatedModel1() {
 		return animatedModel1;
 	}
 	public void setAnimatedModel1(LineChartModel animatedModel1) {
 		this.animatedModel1 = animatedModel1;
 	}
-	/*private PieChartModel createPieModel1() {
+	private PieChartModel createPieModel1() {
 		PieChartModel pieModel1 = new PieChartModel();
 		float nots = 0;
-	   for(TaskEntity t : taskDao.findAllTasks())  
+	   for(TaskEntity t : listtasks)  
 	   {
 		   nots = nots+t.getNoteTask();
 		   
 	   }
 	   float moy =nots/taskDao.findAllTasks().size() ;
-	    pieModel1.set("realis�", moy);
-	    pieModel1.set("non realis�",100-moy);
+	    pieModel1.set("realisé", moy);
+	    pieModel1.set("non realisé",100-moy);
 	     
 	    pieModel1.setTitle("Simple Pie");
 	    pieModel1.setLegendPosition("w");
 	    return pieModel1;
-	}*/
+	}
 	/********************************/
 	public TaskEntity getTaskEntity() {
 		return taskEntity;
@@ -938,22 +959,9 @@ ch = ch + strategy.getResultantText() ;
 	public void setFactureEntity(FactureEntity factureEntity) {
 		this.factureEntity = factureEntity;
 	}
-	public List<TaskEntity> getTasksByFactures() {
-		return tasksByFactures;
-	}
-	public void setTasksByFactures(List<TaskEntity> tasksByFactures) {
-		this.tasksByFactures = tasksByFactures;
-	}
-/**************** add facture ****************/
-	public String newFacture() throws FileNotFoundException, IOException
-	{
-	//	TestBasic generateInvoice = new TestBasic();
-	  String pdfFilename = "sdkjdslk.pdf";
-	 // createPDF(pdfFilename);
-	  selectedWork.setNumTask(selectedWork.getNumTask()+1);
-		return "factureView?faces-redirect=true" ;
-	}
-	/*public  void createPDF (String pdfFilename) throws MalformedURLException, FileNotFoundException, IOException{
+	
+
+	public  void createPDF (String pdfFilename) throws MalformedURLException, FileNotFoundException, IOException{
 		DecimalFormat df = new DecimalFormat("0.00");
 		  Document doc = new Document();
 		  PdfWriter docWriter = null;
@@ -961,8 +969,8 @@ ch = ch + strategy.getResultantText() ;
 		 
 		  try {
 		//   String path = "docs/" + pdfFilename;
-			  String path = "file:/E:/tmp/facture.pdf" ;
-			  URL url1 = new URL("file:/E:/tmp/facture.pdf");
+			  String path = "file:/C:/tmp/facture.pdf" ;
+			  URL url1 = new URL("file:/C:/tmp/facture.pdf");
 		   docWriter = PdfWriter.getInstance(doc , new FileOutputStream(url1.getFile()));
 		   doc.addAuthor("betterThanZero");
 		   doc.addCreationDate();
@@ -1018,8 +1026,7 @@ ch = ch + strategy.getResultantText() ;
 				   createContent(cb,48,y,"",PdfContentByte.ALIGN_RIGHT);
 				   createContent(cb,52,y,"BRUT HT",PdfContentByte.ALIGN_LEFT);
 				   createContent(cb,152,y, "somme des montants bruts",PdfContentByte.ALIGN_LEFT);
-				  
-				 //  double price = Double.valueOf(df.format(Math.random() * 10));
+			
 				   double extPrice = factureEntity.getBrutHt();
 				   createContent(cb,498,y, df.format(extPrice),PdfContentByte.ALIGN_RIGHT);
 				   createContent(cb,568,y, "",PdfContentByte.ALIGN_RIGHT);
@@ -1147,7 +1154,7 @@ ch = ch + strategy.getResultantText() ;
 		    docWriter.close();
 		   }
 		  }
-		 }*/
+		 }
 		 
 		 public void generateLayout(Document doc, PdfContentByte cb)  {
 		 
@@ -1193,7 +1200,7 @@ ch = ch + strategy.getResultantText() ;
 		 
 		   //add the images
 		  
-		   Image companyLogo = Image.getInstance("E:\\tmp\\logo1.jpeg");
+		   Image companyLogo = Image.getInstance("C:\\tmp\\line.png");
 		   companyLogo.setAbsolutePosition(25,700);
 		   companyLogo.scalePercent(25);
 		   doc.add(companyLogo);
@@ -1218,7 +1225,7 @@ ch = ch + strategy.getResultantText() ;
 		    
 		   createHeadings(cb,482,743,"ABC0001");
 		   createHeadings(cb,482,723,"123456");
-		   createHeadings(cb,482,703,"09/26/2012");
+		   createHeadings(cb,482,703,"05/25/2018");
 		 
 		  }
 		 
@@ -1304,25 +1311,29 @@ ch = ch + strategy.getResultantText() ;
 			}
 			
 			public ContratEntity getContratEntity() {
-				return ContratEntity;
+				return contratEntity;
 			}
 			public void setContratEntity(ContratEntity contratEntity) {
-				ContratEntity = contratEntity;
+				contratEntity = contratEntity;
 			}
+                        
+                        
+                        
 			 /***************** generate Contract ***************/
-			public String generateContact()
+			public String generateContrat()
 		{
 			try
 			{
+                            listtasks=taskDao.findAllTasks();
 			Document document = new Document();
-		    PdfWriter.getInstance(document, new FileOutputStream(FILE));
-		    document.open();
-		    Image companyLogo = Image.getInstance("E:\\tmp\\logo1.jpeg");
+                        PdfWriter.getInstance(document, new FileOutputStream(FILE));
+                        document.open();
+                        Image companyLogo = Image.getInstance("C:\\tmp\\line.png");
 			   companyLogo.setAbsolutePosition(25,700);
 			   companyLogo.scalePercent(25);
 			   document.add(companyLogo);
 		    // Left
-		    Paragraph paragraph = new Paragraph(ContratEntity.getCreationDate().toString());
+		    Paragraph paragraph = new Paragraph(contratEntity.getCreationDate().toString());
 		    paragraph.setAlignment(Element.ALIGN_RIGHT);
 		    document.add(paragraph);
 		    // Centered
@@ -1332,11 +1343,11 @@ ch = ch + strategy.getResultantText() ;
 		    // Left
 		    paragraph = new Paragraph("Entre ");
 		    paragraph.add("name client ");
-		    paragraph.add("soarco ");
+		    paragraph.add(" ");
 		    paragraph.setAlignment(Element.ALIGN_CENTER);
 		    document.add(paragraph);
-		    paragraph = new Paragraph("Les taches � faire");
-		    for (TaskEntity t : listTasks)
+		    paragraph = new Paragraph("Les taches a faire");
+		    for (TaskEntity t : listtasks)
 		    {
 		    paragraph.add(t.getNumber()+"-"+t.getTaskName()+" : "+ t.getDescription()+"\n");
 		    }
@@ -1378,11 +1389,12 @@ ch = ch + strategy.getResultantText() ;
 		    document.add(paragraph);
 
 		    document.close();
+                    selectedWork.setNumTask(selectedWork.getNumTask()+1);
+                    selectedWork = projectDao.update(selectedWork);
 		} catch (Exception e) {
 		    e.printStackTrace();
 		}
-			selectedWork.setNumTask(selectedWork.getNumTask()+1);
-			return "contratUpload.jsf?faces-redirect=true";
+			return "listProjects.jsf?faces-redirect=true";
 		}
 
 		/**************************************************/
@@ -1405,17 +1417,7 @@ ch = ch + strategy.getResultantText() ;
 			return null ;
 			
 		}
-		/*public String updatetask(){
-			TaskEntity c2 = taskDao.update(taskSelected);
-			listTasks = taskDao.findAllTasks();
-			return null ;
-		}
-		public TaskDao getTaskDao() {
-			return taskDao;
-		}
-		public void setTaskDao(TaskDao taskDao) {
-			this.taskDao = taskDao;
-		}*/
+		
 		
 		public TaskEntity getTaskSelected() {
 			return taskSelected;
@@ -1556,6 +1558,7 @@ public void generate()
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         String idImage = externalContext.getRequestParameterMap().get("photo_id");
         chartFile.delete();
+        
 		} 
     catch (Exception e) {
         e.printStackTrace();
@@ -1593,101 +1596,68 @@ public void generate()
     public IntervalCategoryDataset createDataset1() {
 
         final TaskSeries s1 = new TaskSeries("Scheduled");
-      /*  int i =1;
-        for(TaskEntity t : taskDao.findAllTasks())
+       /* int i =1;
+       
+        for(TaskEntity t : tasksByProject)
         {
         	
         	 s1.add(new Task(t.getTaskName(),
                      new SimpleTimePeriod(date(0, i, 2017),
                                           date(t.getEstimatePoint(),i+t.getEstimatePoint()/30, 2017))));
         	 i++;
+                 
         }
         */
-        s1.add(new Task("Write Proposal",
-               new SimpleTimePeriod(date(1, Calendar.APRIL, 2001),
-                                    date(5, Calendar.APRIL, 2001))));
+       s1.add(new Task("Write Proposall",
+               new SimpleTimePeriod(date(1, Calendar.APRIL, 2018),
+                                    date(5, Calendar.APRIL, 2018))));
         s1.add(new Task("Obtain Approval",
-               new SimpleTimePeriod(date(9, Calendar.APRIL, 2001),
-                                    date(9, Calendar.APRIL, 2001))));
+               new SimpleTimePeriod(date(9, Calendar.APRIL, 2018),
+                                    date(9, Calendar.APRIL, 2018))));
         s1.add(new Task("Requirements Analysis",
-               new SimpleTimePeriod(date(10, Calendar.APRIL, 2001),
-                                    date(5, Calendar.MAY, 2001))));
+               new SimpleTimePeriod(date(10, Calendar.APRIL, 2018),
+                                    date(5, Calendar.MAY, 2018))));
         s1.add(new Task("Design Phase",
-               new SimpleTimePeriod(date(6, Calendar.MAY, 2001),
-                                    date(30, Calendar.MAY, 2001))));
+               new SimpleTimePeriod(date(6, Calendar.MAY, 2018),
+                                    date(30, Calendar.MAY, 2018))));
         s1.add(new Task("Design Signoff",
-               new SimpleTimePeriod(date(2, Calendar.JUNE, 2001),
-                                    date(2, Calendar.JUNE, 2001))));
+               new SimpleTimePeriod(date(2, Calendar.JUNE, 2018),
+                                    date(2, Calendar.JUNE, 2018))));
         s1.add(new Task("Alpha Implementation",
-               new SimpleTimePeriod(date(3, Calendar.JUNE, 2001),
-                                    date(31, Calendar.JULY, 2001))));
+               new SimpleTimePeriod(date(3, Calendar.JUNE, 2018),
+                                    date(31, Calendar.JULY, 2018))));
         s1.add(new Task("Design Review",
-               new SimpleTimePeriod(date(1, Calendar.AUGUST, 2001),
-                                    date(8, Calendar.AUGUST, 2001))));
+               new SimpleTimePeriod(date(1, Calendar.AUGUST, 2018),
+                                    date(8, Calendar.AUGUST, 2018))));
         s1.add(new Task("Revised Design Signoff",
-               new SimpleTimePeriod(date(10, Calendar.AUGUST, 2001),
-                                    date(10, Calendar.AUGUST, 2001))));
+               new SimpleTimePeriod(date(10, Calendar.AUGUST, 2018),
+                                    date(10, Calendar.AUGUST, 2018))));
         s1.add(new Task("Beta Implementation",
-               new SimpleTimePeriod(date(12, Calendar.AUGUST, 2001),
-                                    date(12, Calendar.SEPTEMBER, 2001))));
+               new SimpleTimePeriod(date(12, Calendar.AUGUST, 2018),
+                                    date(12, Calendar.SEPTEMBER, 2018))));
         s1.add(new Task("Testing",
-               new SimpleTimePeriod(date(13, Calendar.SEPTEMBER, 2001),
-                                    date(31, Calendar.OCTOBER, 2001))));
+               new SimpleTimePeriod(date(13, Calendar.SEPTEMBER, 2018),
+                                    date(31, Calendar.OCTOBER, 2018))));
         s1.add(new Task("Final Implementation",
-               new SimpleTimePeriod(date(1, Calendar.NOVEMBER, 2001),
-                                    date(15, Calendar.NOVEMBER, 2001))));
+               new SimpleTimePeriod(date(1, Calendar.NOVEMBER, 2018),
+                                    date(15, Calendar.NOVEMBER, 2018))));
         s1.add(new Task("Signoff",
-               new SimpleTimePeriod(date(28, Calendar.NOVEMBER, 2001),
-                                    date(30, Calendar.NOVEMBER, 2001))));
+               new SimpleTimePeriod(date(28, Calendar.NOVEMBER, 2018),
+                                    date(30, Calendar.NOVEMBER, 2018))));
 
-        final TaskSeries s2 = new TaskSeries("Actual");
-        s2.add(new Task("Write Proposal",
-               new SimpleTimePeriod(date(1, Calendar.APRIL, 2001),
-                                    date(5, Calendar.APRIL, 2001))));
-        s2.add(new Task("Obtain Approval",
-               new SimpleTimePeriod(date(9, Calendar.APRIL, 2001),
-                                    date(9, Calendar.APRIL, 2001))));
-        s2.add(new Task("Requirements Analysis",
-               new SimpleTimePeriod(date(10, Calendar.APRIL, 2001),
-                                    date(15, Calendar.MAY, 2001))));
-        s2.add(new Task("Design Phase",
-               new SimpleTimePeriod(date(15, Calendar.MAY, 2001),
-                                    date(17, Calendar.JUNE, 2001))));
-        s2.add(new Task("Design Signoff",
-               new SimpleTimePeriod(date(30, Calendar.JUNE, 2001),
-                                    date(30, Calendar.JUNE, 2001))));
-        s2.add(new Task("Alpha Implementation",
-               new SimpleTimePeriod(date(1, Calendar.JULY, 2001),
-                                    date(12, Calendar.SEPTEMBER, 2001))));
-        s2.add(new Task("Design Review",
-               new SimpleTimePeriod(date(12, Calendar.SEPTEMBER, 2001),
-                                    date(22, Calendar.SEPTEMBER, 2001))));
-        s2.add(new Task("Revised Design Signoff",
-               new SimpleTimePeriod(date(25, Calendar.SEPTEMBER, 2001),
-                                    date(27, Calendar.SEPTEMBER, 2001))));
-        s2.add(new Task("Beta Implementation",
-               new SimpleTimePeriod(date(27, Calendar.SEPTEMBER, 2001),
-                                    date(30, Calendar.OCTOBER, 2001))));
-        s2.add(new Task("Testing",
-               new SimpleTimePeriod(date(31, Calendar.OCTOBER, 2001),
-                                    date(17, Calendar.NOVEMBER, 2001))));
-        s2.add(new Task("Final Implementation",
-               new SimpleTimePeriod(date(18, Calendar.NOVEMBER, 2001),
-                                    date(5, Calendar.DECEMBER, 2001))));
-        s2.add(new Task("Signoff",
-               new SimpleTimePeriod(date(10, Calendar.DECEMBER, 2001),
-                                    date(11, Calendar.DECEMBER, 2001))));
+      
 
         final TaskSeriesCollection collection = new TaskSeriesCollection();
         collection.add(s1);
   //      collection.add(s2);
-
+        selectedWork.setNumTask(5);
+         selectedWork = projectDao.update(selectedWork);
         return collection;
     }
     
    public static JFreeChart createChart(final IntervalCategoryDataset dataset) {
         final JFreeChart chart = ChartFactory.createGanttChart(
-            "Gantt Chart Demo",  // chart title
+            "Gant Chart Demo",  // chart title
             "Task",              // domain axis label
             "Date",              // range axis label
             dataset,             // data
@@ -1696,6 +1666,7 @@ public void generate()
             false                // urls
         );    
 //        chart.getCategoryPlot().getDomainAxis().setMaxCategoryLabelWidthRatio(10.0f);
+
         return chart;    
     }
 
@@ -1763,5 +1734,12 @@ public void generate()
 		this.idImage = idImage;
 	}
 	
-	
+	public String next (){
+           
+            selectedWork.setNumTask(selectedWork.getNumTask()+1);
+         selectedWork = projectDao.update(selectedWork);
+         return "listProjects.jsf?faces-redirect=true";
+        }
+
+  
 }

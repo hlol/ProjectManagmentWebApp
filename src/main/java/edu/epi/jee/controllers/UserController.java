@@ -5,10 +5,8 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -22,17 +20,17 @@ import javax.faces.model.SelectItemGroup;
 import org.primefaces.event.FlowEvent;
 
 
-//import edu.epi.jee.dao.ProfileDao;
 import edu.epi.jee.dao.RoleDao;
 import edu.epi.jee.dao.UserDao;
-//import edu.epi.jee.entities.Classe;
 import edu.epi.jee.entities.RoleEntity;
 import edu.epi.jee.entities.UserEntity;
 import edu.epi.jee.entities.UserGroupEntity;
 import edu.epi.jee.dao.UserGroupDao;
+import edu.epi.jee.entities.AdminEntity;
+import javax.faces.bean.SessionScoped;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class UserController implements Serializable {
 @EJB
 private UserDao userDao ;
@@ -40,17 +38,33 @@ private UserDao userDao ;
 private RoleDao roleDao ;
 @EJB
 private UserGroupDao userGroupDao ;
-//@EJB
-//private ProfileDao profileDao;
-//
-private List<SelectItem> categories;    
-private  String selection;
+
+
+private AdminEntity adminEntity = new AdminEntity();
+
+    public AdminEntity getAdminEntity() {
+        return adminEntity;
+    }
+
+    public void setAdminEntity(AdminEntity adminEntity) {
+        this.adminEntity = adminEntity;
+    }
 private String roleSelected;
-//
+
 private UserEntity userEntity = new UserEntity();
+private UserEntity userEntity1 = new UserEntity();
+
+    public UserEntity getUserEntity1() {
+        return userEntity1;
+    }
+
+    public void setUserEntity1(UserEntity userEntity1) {
+        this.userEntity1 = userEntity1;
+    }
+
 private List<UserEntity> listUsers;
 private List<RoleEntity> listRoles;
-private List<UserGroupEntity> listGroup ; 
+
 private boolean skip;
 private List<SelectItem> allGroupsName;    
 private String groupName;
@@ -68,16 +82,10 @@ public UserDao getUserDao() {
 
 public void setUserDao(UserDao userDao) {
 	this.userDao = userDao;
-} /*
-public String printString()
-{
-	userDao.create(new UserEntity("lfkd", "kslfl", "fdpo", "dfk", null, "sd", "f", "f", "f", 55,true));
-	return "it is ok" ; 
-        
-}*/
+} 
 @PostConstruct
 public void init() {
-	RoleEntity r1 = new RoleEntity();
+	/*RoleEntity r1 = new RoleEntity();
 	r1.setName("gerant");
 	RoleEntity r2 = new RoleEntity();
 	r2.setName("responsable technique");
@@ -90,24 +98,24 @@ public void init() {
 	roleDao.create(r3);
 	roleDao.create(r4);
    UserEntity u1 = new UserEntity();
-   u1.setLastName("u1");
-   u1.setFirstName("u2");
+   u1.setLastName("ali");
+   u1.setFirstName("ahmed");
    UserEntity u2 = new UserEntity();
-   u2.setLastName("u2");
-   u2.setFirstName("u2");
+   u2.setLastName("nouha");
+   u2.setFirstName("talbi");
    UserEntity u3 = new UserEntity();
-   u3.setLastName("u3");
-   u3.setFirstName("u3");
+   u3.setLastName("sonia");
+   u3.setFirstName("melki");
    UserEntity u4 = new UserEntity();
-   u4.setLastName("u4");
-   u4.setFirstName("u4");
+   u4.setLastName("saif");
+   u4.setFirstName("manaa");
    UserEntity u5 = new UserEntity();
-   u5.setLastName("u5");
-   u5.setFirstName("u5");
+   u5.setLastName("hend");
+   u5.setFirstName("selmi");
    
-UserGroupEntity g1 = new UserGroupEntity("g1");
-UserGroupEntity g2 = new UserGroupEntity("g2");
-UserGroupEntity g3 = new UserGroupEntity("g3");
+UserGroupEntity g1 = new UserGroupEntity("groupe1");
+UserGroupEntity g2 = new UserGroupEntity("groupe2");
+UserGroupEntity g3 = new UserGroupEntity("groupe3");
  userGroupDao.create(g1);
  userGroupDao.create(g2);
  userGroupDao.create(g3);
@@ -120,10 +128,9 @@ UserGroupEntity g3 = new UserGroupEntity("g3");
  userDao.create(u2);
  userDao.create(u3);
  userDao.create(u4);
- userDao.create(u5);
+ userDao.create(u5);*/
  listRoles = roleDao.findAllRoles();
   listUsers=userDao.findAllUsers();
-    //listRoles = roleDao.findAllRoles();
     List<UserGroupEntity> listGroupUser = userGroupDao.findAllUserGroup();
  allGroupsName = new ArrayList<SelectItem>();
  ListIterator<UserGroupEntity> it = listGroupUser.listIterator();
@@ -195,31 +202,7 @@ public String onFlowProcess(FlowEvent event) {
         return event.getNewStep();
     }
 }
-/*
-public List<SelectItem> getAllGroupsName() {
- listGroup = userGroupDao.findAllUserGroup();
- allGroupsName = new ArrayList<>();
- ListIterator<UserGroupEntity> it = listGroup.listIterator();
- while(it.hasNext()){
-	 UserGroupEntity usergroup = it.next();
-	 SelectItemGroup groupitem = new SelectItemGroup(usergroup.getGroupName());
-//		ListIterator<UserEntity> its = listUsers.listIterator();
-		SelectItem[] listItems = new SelectItem[usergroup.getUserEntityList().size()];
-		int i=0;
-		 for(UserEntity us : usergroup.getUserEntityList()){
-		 SelectItem userPerGroupitem = new SelectItem(us.getFirstName()+" "+us.getLastName(),us.getFirstName()+" "+us.getLastName());
-		listItems[i]=userPerGroupitem;
-		
-		i++;
-		 }
-		 groupitem.setSelectItems(listItems);//.setSelectItems(new SelectItem[]{userPerGroupitem});
-		 
-	 allGroupsName.add(groupitem);
-		 
- }
-	return allGroupsName;
-}
-*/
+
 public List<SelectItem> getAllGroupsName() {
 	return allGroupsName;
 }
@@ -232,14 +215,14 @@ public void setAllGroupsName(List<SelectItem> allGroupsName) {
 
 public String addUserToGroup(){
 	UserGroupEntity userGroupEntity = new UserGroupEntity();
-	System.out.println("--*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-***-*-*-*-*-*-*"+roleSelected);
+        System.out.println("--*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-***-*-*-*-*-*-*"+roleSelected);
 	System.out.println(groupName);
 	System.out.println("--*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-***-*-*-*-*-*-*"+roleSelected);
 	UserEntity user = userDao.findUserByName(groupName);
 	RoleEntity role = roleDao.findRoleByName(roleSelected);
 	userEntity.setUsergroupEntity(user.getUsergroupEntity());
 	userEntity.setRoleEntity(role);
-	return null ;
+	return "dashboard.jsf?faces-redirect=true";
 }
 public String newUser()
 {
@@ -264,5 +247,6 @@ public List<RoleEntity> getListRoles() {
 public void setListRoles(List<RoleEntity> listRoles) {
 	this.listRoles = listRoles;
 }
+ 
 
 }

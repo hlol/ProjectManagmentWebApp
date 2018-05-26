@@ -5,13 +5,15 @@
  */
 package edu.epi.jee.dao;
 
-import edu.epi.jee.entities.ProjectEntity;
-import java.util.List;
+import edu.epi.jee.entities.AdminEntity;
 import javax.ejb.Local;
 
+/**
+ *
+ * @author HLOL
+ */
 @Local
-public interface ProjectDao extends GenericDao<ProjectEntity>{
-public List<ProjectEntity> findAllProjects();
-//public ProjectEntity findProjectByName(String name);
-}
+public interface AdminDao extends GenericDao<AdminEntity>{
+    public AdminEntity findUserByName(String name);
 
+}
